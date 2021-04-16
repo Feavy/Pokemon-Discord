@@ -27,6 +27,10 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
 
+        if(!playerGame.canPlay(event.getUser().get())) {
+            return;
+        }
+
         Emoji em = event.getReaction().get().getEmoji();
         if(eq(em, ":arrow_up:")) {
             playerGame.getPlayer().moveUp();
@@ -54,6 +58,10 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
 
         PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(event.getMessage().get());
         if(playerGame == null) {
+            return;
+        }
+
+        if(!playerGame.canPlay(event.getUser().get())) {
             return;
         }
 

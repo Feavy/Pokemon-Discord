@@ -9,6 +9,7 @@ import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.maps.PokemonMap;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.image.BufferedImage;
@@ -36,10 +37,11 @@ public class AdventureCommand implements Command {
             throw new RuntimeException("This command can only be executed by an user.");
         }
 
-        long userId = event.getMessageAuthor().asUser().get().getId();
+        User user = event.getMessageAuthor().asUser().get();
+        long userId = user.getId();
         PokemonGame playerGame = GameManager.INSTANCE.get(userId);
         if(playerGame == null) {
-            playerGame = new PokemonGame(new Player(0,0), PokemonMap.BOURG_PEPIN);
+            playerGame = new PokemonGame(user, new Player(0,0), PokemonMap.BOURG_PEPIN);
             GameManager.INSTANCE.put(userId, playerGame);
         }
 

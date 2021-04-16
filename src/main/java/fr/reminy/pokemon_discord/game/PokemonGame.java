@@ -5,6 +5,7 @@ import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.maps.PokemonMap;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.user.User;
 import org.mapeditor.core.Map;
 
 import java.awt.image.BufferedImage;
@@ -15,13 +16,15 @@ public class PokemonGame {
     // -> serveur HTTP (quarkus) ? ou upload sur un hébergeur
     // Possibilité de se déplacer
 
+    private User user;
     private final Player player;
     private PokemonMap currentMap;
     private final GameRenderer renderer;
 
     private Message linkedMessage = null;
 
-    public PokemonGame(Player player, PokemonMap currentMap) {
+    public PokemonGame(User user, Player player, PokemonMap currentMap) {
+        this.user = user;
         this.player = player;
         this.currentMap = currentMap;
         renderer = new GameRenderer(this, new Camera(player, Settings.CAMERA_WIDTH, Settings.CAMERA_HEIGHT));
@@ -32,6 +35,10 @@ public class PokemonGame {
         String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(linkedMessage.getAuthor().asUser().get().getId(), rendered);
 
         linkedMessage.edit(playerImageURL);
+    }
+
+    public boolean canPlay(User user) {
+        return this.user.getId() == user.getId();
     }
 
     public Player getPlayer() {
