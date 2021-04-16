@@ -7,9 +7,13 @@ import fr.reminy.pokemon_discord.command.Commands;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class HelpCommand implements Command {
+
     @Override
     public String[] getLabels() {
         return new String[] {"help", "h"};
@@ -27,11 +31,23 @@ public class HelpCommand implements Command {
 
     @Override
     public void execute(TextChannel channel, List<String> args) {
+        Map<Category, List<Command>> commands = Arrays.stream(Commands.values())
+                .map(Commands::getCommand)
+                .collect(Collectors.groupingBy(Command::getCategory));
+
+        System.out.println(commands);
+
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        for (Commands commands : Commands.values()) {
-            Command cmd = commands.getCommand();
-            embedBuilder.addField(Settings.PREFIX+cmd.getLabels()[0], cmd.getDescription());
+
+        for (Map.Entry<Category, List<Command>> commandsByCategory : commands.entrySet()) {
+            System.out.println(commandsByCategory);
+            Category category = commandsByCategory.getKey();
+            List<Command> cmds = commandsByCategory.getValue();
+            embedBuilder.addField(category.getLabel().toUpperCase(),
+                    cmds.stream().map(cmd -> String.format("`%s` : %s", Settings.PREFIX+cmd.getLabels()[0], cmd.getDescription()))
+                    .collect(Collectors.joining("\n")));
         }
+
         channel.sendMessage(embedBuilder);
     }
 }

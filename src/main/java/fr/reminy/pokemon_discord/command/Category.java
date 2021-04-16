@@ -9,4 +9,8 @@ public enum Category {
     Category(String label) {
         this.label = label;
     }
+
+    public String getLabel() {
+        return label;
+    }
 }
