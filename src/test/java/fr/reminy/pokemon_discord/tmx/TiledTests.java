@@ -1,7 +1,6 @@
-package fr.reminy.pokemon_discord;
+package fr.reminy.pokemon_discord.tmx;
 
 
-import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;
 import org.junit.jupiter.api.Test;
 import org.mapeditor.core.Map;
 import org.mapeditor.core.MapLayer;

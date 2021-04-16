@@ -10,7 +10,7 @@ import java.util.List;
 public class CommandManager {
     public void registerCommands(DiscordApi api) {
         api.addMessageCreateListener(event -> {
-            List<String> args = new ArrayList<>(Arrays.asList(event.getMessageContent().split(" ")));
+            List<String> args = new ArrayList<>(Arrays.asList(event.getMessageContent().split("\\s+")));
             for(Commands command : Commands.values()) {
                 Command cmd = command.getCommand();
                 for (String label : cmd.getLabels()) {
