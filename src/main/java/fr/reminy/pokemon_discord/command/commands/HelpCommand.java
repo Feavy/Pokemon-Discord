@@ -35,12 +35,9 @@ public class HelpCommand implements Command {
                 .map(Commands::getCommand)
                 .collect(Collectors.groupingBy(Command::getCategory));
 
-        System.out.println(commands);
-
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         for (Map.Entry<Category, List<Command>> commandsByCategory : commands.entrySet()) {
-            System.out.println(commandsByCategory);
             Category category = commandsByCategory.getKey();
             List<Command> cmds = commandsByCategory.getValue();
             embedBuilder.addField(category.getLabel().toUpperCase(),
