@@ -1,9 +1,17 @@
 package fr.reminy.pokemon_discord.command.commands;
 
+import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
+import fr.reminy.pokemon_discord.game.GameManager;
+import fr.reminy.pokemon_discord.game.PokemonGame;
+import fr.reminy.pokemon_discord.game.entity.Player;
+import fr.reminy.pokemon_discord.game.http.GameHttpServer;
+import fr.reminy.pokemon_discord.maps.PokemonMap;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.event.message.MessageCreateEvent;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
 public class AdventureCommand implements Command {
@@ -23,7 +31,30 @@ public class AdventureCommand implements Command {
     }
 
     @Override
-    public void execute(TextChannel channel, List<String> args) {
-        channel.sendMessage("C'est parti !");
+    public void execute(MessageCreateEvent event, TextChannel channel, List<String> args) {
+        if(event.getMessageAuthor().asUser().isEmpty()) {
+            throw new RuntimeException("This command can only be executed by an user.");
+        }
+
+        long userId = event.getMessageAuthor().asUser().get().getId();
+        PokemonGame playerGame = GameManager.INSTANCE.get(userId);
+        if(playerGame == null) {
+            playerGame = new PokemonGame(new Player(0,0), PokemonMap.BOURG_PEPIN);
+            GameManager.INSTANCE.put(userId, playerGame);
+        }
+
+        BufferedImage rendered = playerGame.getRenderer().render();
+        String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(userId, rendered);
+
+        PokemonGame finalPlayerGame = playerGame;
+        playerGame.getLinkedMessage().ifPresentOrElse(msg -> msg.edit(playerImageURL),
+                () -> channel.sendMessage(playerImageURL).thenAccept(msg -> {
+                    GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame);
+                    finalPlayerGame.setLinkedMessage(msg);
+                    msg.addReaction(EmojiParser.parseToUnicode(":arrow_up:"));
+                    msg.addReaction(EmojiParser.parseToUnicode(":arrow_right:"));
+                    msg.addReaction(EmojiParser.parseToUnicode(":arrow_down:"));
+                    msg.addReaction(EmojiParser.parseToUnicode(":arrow_left:"));
+                }));
     }
 }

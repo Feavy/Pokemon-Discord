@@ -832,7 +832,6 @@ public class ClasspathTMXMapReader {
      */
     public Map readMap(String classMapPath) throws Exception {
         this.classMapPath = classMapPath.replaceFirst("/[^/]+$", "/");
-        System.out.println(this.classMapPath);
         InputStream in = getClass().getResourceAsStream(classMapPath);
         //xmlPath = makeUrl(".");
         xmlPath = System.getProperty("user.dir") + File.separatorChar;

@@ -17,7 +17,7 @@ public class CommandManager {
                     String cmdLbl = Settings.PREFIX + label;
                     if (args.get(0).equalsIgnoreCase(cmdLbl)) {
                         args.remove(0);
-                        cmd.execute(event.getChannel(), args);
+                        cmd.execute(event, event.getChannel(), args);
                         return;
                     }
                 }

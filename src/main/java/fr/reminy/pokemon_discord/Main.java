@@ -2,6 +2,7 @@ package fr.reminy.pokemon_discord;
 
 import fr.reminy.pokemon_discord.command.CommandManager;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
+import fr.reminy.pokemon_discord.listeners.ReactionListener;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
@@ -16,6 +17,11 @@ public class Main {
         CommandManager commandManager = new CommandManager();
         commandManager.registerCommands(api);
 
-        new GameHttpServer().start();
+        ReactionListener reactionListener = new ReactionListener();
+
+        api.addReactionAddListener(reactionListener);
+        api.addReactionRemoveListener(reactionListener);
+
+        GameHttpServer.INSTANCE.start();
     }
 }

@@ -3,6 +3,7 @@ package fr.reminy.pokemon_discord.command.commands;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class PingCommand implements Command {
     }
 
     @Override
-    public void execute(TextChannel channel, List<String> args) {
+    public void execute(MessageCreateEvent event, TextChannel channel, List<String> args) {
         channel.sendMessage("Pong!");
     }
 }
