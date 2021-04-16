@@ -1,19 +1,27 @@
 package fr.reminy.pokemon_discord.command.commands;
 
+import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
+import fr.reminy.pokemon_discord.game.data.Emotes;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.maps.PokemonMap;
+import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.DiscordEntity;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.emoji.CustomEmoji;
+import org.javacord.api.entity.emoji.Emoji;
+import org.javacord.api.entity.emoji.KnownCustomEmoji;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Optional;
 
 public class AdventureCommand implements Command {
     @Override
@@ -48,6 +56,10 @@ public class AdventureCommand implements Command {
         BufferedImage rendered = playerGame.getRenderer().render();
         String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(userId, rendered);
 
+        DiscordApi api = event.getApi();
+        Optional<KnownCustomEmoji> a = api.getCustomEmojiById(Emotes.A.getId());
+        Optional<KnownCustomEmoji> b = api.getCustomEmojiById(Emotes.B.getId());
+
         PokemonGame finalPlayerGame = playerGame;
         playerGame.getLinkedMessage().ifPresentOrElse(msg -> msg.edit(playerImageURL),
                 () -> channel.sendMessage(playerImageURL).thenAccept(msg -> {
@@ -57,6 +69,8 @@ public class AdventureCommand implements Command {
                     msg.addReaction(EmojiParser.parseToUnicode(":arrow_right:"));
                     msg.addReaction(EmojiParser.parseToUnicode(":arrow_down:"));
                     msg.addReaction(EmojiParser.parseToUnicode(":arrow_left:"));
+                    a.ifPresent(msg::addReaction);
+                    b.ifPresent(msg::addReaction);
                 }));
     }
 }
