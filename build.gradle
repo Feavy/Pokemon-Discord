@@ -15,6 +15,15 @@ dependencies {
 
     implementation 'org.javacord:javacord:3.3.0'
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.11.0'
+
+    implementation group: 'org.mapeditor', name: 'libtiled', version: '1.2.3'
+    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1'
+    implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.0'
+//    compile('javax.xml.bind:jaxb-api:2.3.0')
+//    compile('javax.activation:activation:1.1')
+//    compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
 }
 
 test {
