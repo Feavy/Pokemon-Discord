@@ -5,8 +5,9 @@ import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
 import fr.reminy.pokemon_discord.command.Commands;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
-import org.javacord.api.event.message.MessageCreateEvent;
+import org.javacord.api.event.message.MessageEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,7 @@ public class HelpCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Affiche la liste des commande et leur fonction.";
+        return "Affiche la liste des commandes et leur fonction.";
     }
 
     @Override
@@ -31,7 +32,7 @@ public class HelpCommand implements Command {
     }
 
     @Override
-    public void execute(MessageCreateEvent event, TextChannel channel, List<String> args) {
+    public void execute(MessageEvent event, MessageAuthor author, TextChannel channel, List<String> args) {
         Map<Category, List<Command>> commands = Arrays.stream(Commands.values())
                 .map(Commands::getCommand)
                 .collect(Collectors.groupingBy(Command::getCategory));

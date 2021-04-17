@@ -11,9 +11,16 @@ public class GameManager extends HashMap<Long, PokemonGame>{
     private GameManager() { }
 
     private final Map<Message, PokemonGame> messageGameMap = new HashMap<>();
+    private final Map<PokemonGame, Message> gameMessageMap = new HashMap<>();
 
     public void setLinkedMessage(Message msg, PokemonGame finalPlayerGame) {
+        Message message = gameMessageMap.get(finalPlayerGame);
+        if(message != null) {
+            messageGameMap.remove(message);
+        }
         messageGameMap.put(msg, finalPlayerGame);
+        gameMessageMap.put(finalPlayerGame, msg);
+        finalPlayerGame.setLinkedMessage(msg);
     }
 
     public PokemonGame getGameByMessage(Message message) {
