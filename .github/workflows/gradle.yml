@@ -53,6 +53,6 @@ jobs:
       run: |
         ssh azure 'echo "java -jar /bot/pokemon-discord-poc-1.0-SNAPSHOT-all.jar ${{ secrets.BOT_TOKEN }}" > /bot/run.sh'
         ssh azure 'chmod 700 /bot/run.sh'
-        scp ${{ GITHUB.WORKSPACE }}/workflow-artifacts/build/libs/pokemon-discord-poc-1.0-SNAPSHOT-all.jar azure:/bot
+        scp build/libs/pokemon-discord-poc-1.0-SNAPSHOT-all.jar azure:/bot
     - name: Start the bot
       run: ssh azure '/bot/run.sh'
