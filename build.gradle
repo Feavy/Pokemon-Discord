@@ -17,14 +17,25 @@ dependencies {
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.11.0'
 
     implementation group: 'org.mapeditor', name: 'libtiled', version: '1.2.3'
-    // https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api
+
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
     implementation group: 'javax.activation', name: 'activation', version: '1.1'
     implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.0'
 
-    compile 'com.vdurmont:emoji-java:5.1.1'
+    implementation group: 'com.vdurmont', name: 'emoji-java', version: '5.1.1'
 }
 
 test {
     useJUnitPlatform()
+}
+
+compileJava.options.encoding = "Cp1252"
+compileTestJava.options.encoding = "Cp1252"
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart',
+                'Implementation-Version': version,
+                'Main-Class': 'fr.reminy.pokemon_discord.Main'
+    }
 }
