@@ -7,10 +7,10 @@ import com.sun.net.httpserver.HttpServer;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,7 +20,20 @@ public class GameHttpServer {
     public final static GameHttpServer INSTANCE = new GameHttpServer();
     private final Map<Long, BufferedImage> playerImages = new HashMap<>();
 
+    private String serverIP;
+
     private GameHttpServer() {
+        try {
+            URL checkip = new URL("http://checkip.amazonaws.com");
+            try(BufferedReader in = new BufferedReader(new InputStreamReader(
+                    checkip.openStream()))) {
+                serverIP = in.readLine();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void start() throws IOException {
@@ -74,7 +87,7 @@ public class GameHttpServer {
 
     public String setPlayerImage(long userId, BufferedImage image) {
         playerImages.put(userId, image);
-        return "http://90.1.253.156/?player=" + userId + "&cv=" + UUID.randomUUID();
+        return "http://"+serverIP+"/?player=" + userId + "&cv=" + UUID.randomUUID();
     }
 
     public Map<String, String> queryToMap(String query) {
