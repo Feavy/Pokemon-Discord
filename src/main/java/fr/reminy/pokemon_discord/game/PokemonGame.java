@@ -3,7 +3,7 @@ package fr.reminy.pokemon_discord.game;
 import fr.reminy.pokemon_discord.Settings;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
-import fr.reminy.pokemon_discord.maps.PokemonMap;
+import fr.reminy.pokemon_discord.game.maps.PokemonMap;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.user.User;
 
@@ -11,10 +11,6 @@ import java.awt.image.BufferedImage;
 import java.util.Optional;
 
 public class PokemonGame {
-    // Afficher map
-    // -> serveur HTTP (quarkus) ? ou upload sur un hébergeur
-    // Possibilité de se déplacer
-
     private final Player player;
     private final GameRenderer renderer;
     private User user;

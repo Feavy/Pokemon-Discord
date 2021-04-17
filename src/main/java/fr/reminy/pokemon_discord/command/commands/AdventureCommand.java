@@ -8,7 +8,7 @@ import fr.reminy.pokemon_discord.game.PokemonGame;
 import fr.reminy.pokemon_discord.game.data.Emotes;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
-import fr.reminy.pokemon_discord.maps.PokemonMap;
+import fr.reminy.pokemon_discord.game.maps.PokemonMap;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.KnownCustomEmoji;
@@ -28,7 +28,7 @@ public class AdventureCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Démarrer ou reprendre une aventure Pokémon !";
+        return "Dï¿½marrer ou reprendre une aventure Pokï¿½mon !";
     }
 
     @Override

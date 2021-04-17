@@ -1,10 +1,10 @@
-package fr.reminy.pokemon_discord.maps;
+package fr.reminy.pokemon_discord.game.maps;
 
 import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;
 import org.mapeditor.core.Map;
 
 public enum PokemonMap {
-    BOURG_PEPIN("Bourg Pépin", "/maps/map1.tmx");
+    BOURG_PEPIN("Bourg Pï¿½pin", "/maps/map1.tmx");
 
     private final String name;
     private final Map map;
