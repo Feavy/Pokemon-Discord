@@ -28,7 +28,7 @@ public class AdventureCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Dï¿½marrer ou reprendre une aventure Pokï¿½mon !";
+        return "Démarrer ou reprendre une aventure Pokémon !";
     }
 
     @Override
