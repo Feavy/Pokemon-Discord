@@ -49,7 +49,7 @@ public class GameHttpServer {
 
         if (!getParameters.containsKey("player")) {
             exchange.sendResponseHeaders(400, 0);
-            exchange.getRequestBody().close();
+            exchange.getResponseBody().close();
             return;
         }
 
@@ -59,7 +59,7 @@ public class GameHttpServer {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             exchange.sendResponseHeaders(400, 0);
-            exchange.getRequestBody().close();
+            exchange.getResponseBody().close();
             return;
         }
 
@@ -67,7 +67,7 @@ public class GameHttpServer {
 
         if (image == null) {
             exchange.sendResponseHeaders(404, 0);
-            exchange.getRequestBody().close();
+            exchange.getResponseBody().close();
             return;
         }
 
@@ -92,13 +92,16 @@ public class GameHttpServer {
 
     public Map<String, String> queryToMap(String query) {
         Map<String, String> result = new HashMap<>();
-        for (String param : query.split("&")) {
-            String[] entry = param.split("=");
-            if (entry.length > 1) {
-                result.put(entry[0], entry[1]);
-            } else {
-                result.put(entry[0], "");
+        try {
+            for (String param : query.split("&")) {
+                String[] entry = param.split("=");
+                if (entry.length > 1) {
+                    result.put(entry[0], entry[1]);
+                } else {
+                    result.put(entry[0], "");
+                }
             }
+        }catch (Exception ignore) {
         }
         return result;
     }
