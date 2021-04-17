@@ -31,24 +31,28 @@ jobs:
         name: build-jars
         path: |
           build/libs
-    - name: Login via Az module
-      uses: azure/login@v1
-      with:
-        creds: ${{secrets.AZURE_CREDENTIALS}}
-    
-    - name: Build and Distribute Custom VM Image      
-      uses: azure/build-vm-image@v0
-      with:        
-        resource-group-name: 'pokemon-discord'
-        location: 'eastus2'
-        managed-identity: 'deploy-github'
-        source-os-type: 'linux'
-        source-image-type: 'PlatformImage'
-        vm-size: B1s
-        source-image: Canonical:UbuntuServer:18.04-LTS:latest 
-        customizer-source: ${{ GITHUB.WORKSPACE }}/workflow-artifacts
-        customizer-script: |
-          sudo mkdir /buildArtifacts
-          sudo cp -r /tmp/ /buildArtifacts/
-          java -jar pokemon-discord-poc-1.0-SNAPSHOT-all.jar ${{secrets.BOT_TOKEN}}
-  
+    - name: Setup SSH
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY" > ~/.ssh/azure.key
+        chmod 600 ~/.ssh/azure.key
+        cat >>~/.ssh/config <<END
+        Host azure
+          HostName $SSH_HOST
+          User $SSH_USER
+          IdentityFile ~/.ssh/azure.key
+          StrictHostKeyChecking no
+        END
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_KEY: ${{ secrets.SSH_KEY }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+    - name: Stop the bot
+      run: ssh azure "pkill -f 'java -jar'"
+    - name: Upload jar on Azure VM
+      run: |
+        ssh azure 'echo "java -jar /bot/pokemon-discord-poc-1.0-SNAPSHOT-all.jar ${{ secrets.BOT_TOKEN }}" > /bot/run.sh'
+        ssh azure 'chmod 700 /bot/run.sh'
+        scp ${{ GITHUB.WORKSPACE }}/workflow-artifacts/build/libs/pokemon-discord-poc-1.0-SNAPSHOT-all.jar azure:/bot
+    - name: Start the bot
+      run: ssh azure '/bot/run.sh'
