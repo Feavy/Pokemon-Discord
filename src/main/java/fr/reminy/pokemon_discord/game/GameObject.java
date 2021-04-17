@@ -35,5 +35,6 @@ public abstract class GameObject {
     public int getAbsY() {
         return y * 16;
     }
+
     public abstract void update();
 }

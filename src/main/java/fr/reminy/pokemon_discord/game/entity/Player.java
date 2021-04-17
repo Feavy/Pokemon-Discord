@@ -1,9 +1,7 @@
 package fr.reminy.pokemon_discord.game.entity;
 
-import fr.reminy.pokemon_discord.game.Camera;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class Player extends Character {

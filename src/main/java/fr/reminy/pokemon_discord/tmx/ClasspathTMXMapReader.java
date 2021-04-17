@@ -30,33 +30,6 @@
  */
 package fr.reminy.pokemon_discord.tmx;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.InflaterInputStream;
-
-import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.mapeditor.core.*;
 import org.mapeditor.util.BasicTileCutter;
 import org.mapeditor.util.ImageHelper;
@@ -69,6 +42,31 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import javax.imageio.ImageIO;
+import javax.xml.bind.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.InflaterInputStream;
 
 /**
  * The standard map reader for TMX files. Supports reading .tmx, .tmx.gz and
@@ -85,30 +83,20 @@ public class ClasspathTMXMapReader {
     public static long ALL_FLAGS = FLIPPED_HORIZONTALLY_FLAG
             | FLIPPED_VERTICALLY_FLAG
             | FLIPPED_DIAGONALLY_FLAG;
-
+    public final TMXMapReaderSettings settings = new TMXMapReaderSettings();
+    private final EntityResolver entityResolver = new MapEntityResolver();
+    private final HashMap<String, TileSet> cachedTilesets = new HashMap<>();
+    private final HashMap<Class, Unmarshaller> cachedUnmarshallers = new HashMap<>();
     private Map map;
     private String xmlPath;
     private String error;
-    private final EntityResolver entityResolver = new MapEntityResolver();
     private TreeMap<Integer, TileSet> tilesetPerFirstGid;
-    public final TMXMapReaderSettings settings = new TMXMapReaderSettings();
-    private final HashMap<String, TileSet> cachedTilesets = new HashMap<>();
-    private final HashMap<Class, Unmarshaller> cachedUnmarshallers = new HashMap<>();
     private String classMapPath;
-
-    public static final class TMXMapReaderSettings {
-
-        public boolean reuseCachedTilesets = false;
-    }
 
     /**
      * Constructor for TMXMapReader.
      */
     public ClasspathTMXMapReader() {
-    }
-
-    String getError() {
-        return error;
     }
 
     private static String makeUrl(String filename) throws MalformedURLException {
@@ -149,6 +137,71 @@ public class ClasspathTMXMapReader {
         } else {
             return def;
         }
+    }
+
+    /**
+     * Reads properties from amongst the given children. When a "properties"
+     * element is encountered, it recursively calls itself with the children of
+     * this node. This function ensures backward compatibility with tmx version
+     * 0.99a.
+     * <p>
+     * Support for reading property values stored as character data was added in
+     * Tiled 0.7.0 (tmx version 0.99c).
+     *
+     * @param children the children amongst which to find properties
+     * @param props    the properties object to set the properties of
+     */
+    private static void readProperties(NodeList children, Properties props) {
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            if ("property".equalsIgnoreCase(child.getNodeName())) {
+                final String key = getAttributeValue(child, "name");
+                String value = getAttributeValue(child, "value");
+                if (value == null) {
+                    Node grandChild = child.getFirstChild();
+                    if (grandChild != null) {
+                        value = grandChild.getNodeValue();
+                        if (value != null) {
+                            value = value.trim();
+                        }
+                    }
+                }
+                if (value != null) {
+                    props.setProperty(key, value);
+                }
+            } else if ("properties".equals(child.getNodeName())) {
+                readProperties(child.getChildNodes(), props);
+            }
+        }
+    }
+
+    /**
+     * This utility function will check the specified string to see if it starts
+     * with one of the OS root designations. (Ex.: '/' on Unix, 'C:' on Windows)
+     *
+     * @param filename a filename to check for absolute or relative path
+     * @return <code>true</code> if the specified filename starts with a
+     * filesystem root, <code>false</code> otherwise.
+     */
+    public static boolean checkRoot(String filename) {
+        File[] roots = File.listRoots();
+
+        for (File root : roots) {
+            try {
+                String canonicalRoot = root.getCanonicalPath().toLowerCase();
+                if (filename.toLowerCase().startsWith(canonicalRoot)) {
+                    return true;
+                }
+            } catch (IOException e) {
+                // Do we care?
+            }
+        }
+
+        return false;
+    }
+
+    String getError() {
+        return error;
     }
 
     private <T> T unmarshalClass(Node node, Class<T> type) throws JAXBException {
@@ -241,7 +294,7 @@ public class ClasspathTMXMapReader {
         if (source != null) {
             source = replacePathSeparator(source);
 
-            String filename = Paths.get(this.classMapPath+ source.replaceAll("\\\\", "/"))
+            String filename = Paths.get(this.classMapPath + source.replaceAll("\\\\", "/"))
                     .normalize().toString()
                     .replaceAll("\\\\", "/");
             InputStream in = getClass().getResourceAsStream(filename);
@@ -441,42 +494,6 @@ public class ClasspathTMXMapReader {
 
         obj.setProperties(props);
         return obj;
-    }
-
-    /**
-     * Reads properties from amongst the given children. When a "properties"
-     * element is encountered, it recursively calls itself with the children of
-     * this node. This function ensures backward compatibility with tmx version
-     * 0.99a.
-     *
-     * Support for reading property values stored as character data was added in
-     * Tiled 0.7.0 (tmx version 0.99c).
-     *
-     * @param children the children amongst which to find properties
-     * @param props the properties object to set the properties of
-     */
-    private static void readProperties(NodeList children, Properties props) {
-        for (int i = 0; i < children.getLength(); i++) {
-            Node child = children.item(i);
-            if ("property".equalsIgnoreCase(child.getNodeName())) {
-                final String key = getAttributeValue(child, "name");
-                String value = getAttributeValue(child, "value");
-                if (value == null) {
-                    Node grandChild = child.getFirstChild();
-                    if (grandChild != null) {
-                        value = grandChild.getNodeValue();
-                        if (value != null) {
-                            value = value.trim();
-                        }
-                    }
-                }
-                if (value != null) {
-                    props.setProperty(key, value);
-                }
-            } else if ("properties".equals(child.getNodeName())) {
-                readProperties(child.getChildNodes(), props);
-            }
-        }
     }
 
     private Tile unmarshalTile(TileSet set, Node t, String baseDir)
@@ -711,28 +728,27 @@ public class ClasspathTMXMapReader {
     }
 
 
-
     /**
      * Helper method to set the tile based on its global id.
      *
-     * @param ml tile layer
-     * @param y y-coordinate
-     * @param x x-coordinate
+     * @param ml      tile layer
+     * @param y       y-coordinate
+     * @param x       x-coordinate
      * @param tileGid global id of the tile as read from the file
      */
     private void setTileAtFromTileId(TileLayer ml, int y, int x, int tileGid) {
-        Tile tile = this.getTileForTileGID( (tileGid & (int)~ALL_FLAGS));
+        Tile tile = this.getTileForTileGID((tileGid & (int) ~ALL_FLAGS));
 
-        long flags = tileGid &  ALL_FLAGS;
+        long flags = tileGid & ALL_FLAGS;
         ml.setTileAt(x, y, tile);
-        ml.setFlagsAt(x, y, (int)flags);
+        ml.setFlagsAt(x, y, (int) flags);
     }
 
     /**
      * Helper method to get the tile based on its global id.
      *
      * @param tileId global id of the tile
-     * @return    <ul><li>{@link Tile} object corresponding to the global id, if
+     * @return <ul><li>{@link Tile} object corresponding to the global id, if
      * found</li><li><code>null</code>, otherwise</li></ul>
      */
     private Tile getTileForTileGID(int tileId) {
@@ -894,44 +910,6 @@ public class ClasspathTMXMapReader {
         return false;
     }
 
-    private class MapEntityResolver implements EntityResolver {
-
-        @Override
-        public InputSource resolveEntity(String publicId, String systemId) {
-            if (systemId.equals("http://mapeditor.org/dtd/1.0/map.dtd")) {
-                return new InputSource(
-                        this.getClass().getClassLoader()
-                                .getResourceAsStream("map.dtd"));
-            }
-            return null;
-        }
-    }
-
-    /**
-     * This utility function will check the specified string to see if it starts
-     * with one of the OS root designations. (Ex.: '/' on Unix, 'C:' on Windows)
-     *
-     * @param filename a filename to check for absolute or relative path
-     * @return <code>true</code> if the specified filename starts with a
-     * filesystem root, <code>false</code> otherwise.
-     */
-    public static boolean checkRoot(String filename) {
-        File[] roots = File.listRoots();
-
-        for (File root : roots) {
-            try {
-                String canonicalRoot = root.getCanonicalPath().toLowerCase();
-                if (filename.toLowerCase().startsWith(canonicalRoot)) {
-                    return true;
-                }
-            } catch (IOException e) {
-                // Do we care?
-            }
-        }
-
-        return false;
-    }
-
     /**
      * Get the tile set and its corresponding firstgid that matches the given
      * global tile id.
@@ -946,6 +924,7 @@ public class ClasspathTMXMapReader {
 
     /**
      * Tile map can be assembled on UNIX system, but read on Microsoft Windows system.
+     *
      * @param path path to imageSource, tileSet, etc.
      * @return path with the correct {@link File#separator}
      */
@@ -955,5 +934,23 @@ public class ClasspathTMXMapReader {
         if (path.isEmpty() || path.lastIndexOf(File.separatorChar) >= 0)
             return path;
         return path.replace("/", File.separator);
+    }
+
+    public static final class TMXMapReaderSettings {
+
+        public boolean reuseCachedTilesets = false;
+    }
+
+    private class MapEntityResolver implements EntityResolver {
+
+        @Override
+        public InputSource resolveEntity(String publicId, String systemId) {
+            if (systemId.equals("http://mapeditor.org/dtd/1.0/map.dtd")) {
+                return new InputSource(
+                        this.getClass().getClassLoader()
+                                .getResourceAsStream("map.dtd"));
+            }
+            return null;
+        }
     }
 }

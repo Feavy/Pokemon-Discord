@@ -12,7 +12,7 @@ public class PingCommand implements Command {
 
     @Override
     public String[] getLabels() {
-        return new String[] {"ping", "p"};
+        return new String[]{"ping", "p"};
     }
 
     @Override

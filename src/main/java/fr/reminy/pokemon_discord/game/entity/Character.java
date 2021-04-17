@@ -1,6 +1,5 @@
 package fr.reminy.pokemon_discord.game.entity;
 
-import fr.reminy.pokemon_discord.game.Camera;
 import fr.reminy.pokemon_discord.game.GameObject;
 import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
@@ -40,7 +39,7 @@ public class Character extends GameObject {
     @Override
     public void draw(Graphics2D graphics2D) {
         BufferedImage currentFrame = spriteSheet.getImage(0, facingDirection.ordinal());
-        graphics2D.drawImage(currentFrame, getAbsX(), getAbsY()-10, null);
+        graphics2D.drawImage(currentFrame, getAbsX(), getAbsY() - 10, null);
     }
 
     @Override

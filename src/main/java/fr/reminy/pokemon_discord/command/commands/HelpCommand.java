@@ -18,7 +18,7 @@ public class HelpCommand implements Command {
 
     @Override
     public String[] getLabels() {
-        return new String[] {"help", "h"};
+        return new String[]{"help", "h"};
     }
 
     @Override
@@ -43,8 +43,8 @@ public class HelpCommand implements Command {
             Category category = commandsByCategory.getKey();
             List<Command> cmds = commandsByCategory.getValue();
             embedBuilder.addField(category.getLabel().toUpperCase(),
-                    cmds.stream().map(cmd -> String.format("`%s` : %s", Settings.PREFIX+cmd.getLabels()[0], cmd.getDescription()))
-                    .collect(Collectors.joining("\n")));
+                    cmds.stream().map(cmd -> String.format("`%s` : %s", Settings.PREFIX + cmd.getLabels()[0], cmd.getDescription()))
+                            .collect(Collectors.joining("\n")));
         }
 
         channel.sendMessage(embedBuilder);

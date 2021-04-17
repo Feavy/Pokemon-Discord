@@ -34,7 +34,7 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
 
         if (event.getUser().isEmpty()) {
             event.requestUser().thenAccept(user -> this.onReaction(event, user));
-        }else{
+        } else {
             this.onReaction(event, event.getUser().get());
         }
 

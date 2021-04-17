@@ -25,15 +25,15 @@ public class GameRenderer {
         OrthogonalRenderer orthogonalRenderer = new OrthogonalRenderer(map);
 
         int tileSize = map.getTileWidth();
-        BufferedImage image = new BufferedImage(camera.getWidth() * tileSize * Settings.SCALE_FACTOR, camera.getHeight()*tileSize* Settings.SCALE_FACTOR, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(camera.getWidth() * tileSize * Settings.SCALE_FACTOR, camera.getHeight() * tileSize * Settings.SCALE_FACTOR, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = (Graphics2D) image.getGraphics();
 
 
-        graphics2D.setClip(0, 0, camera.getAbsWidth()*Settings.SCALE_FACTOR, camera.getAbsHeight()*Settings.SCALE_FACTOR);
-        graphics2D.translate(-camera.getAbsX()+camera.getAbsWidth()/2*Settings.SCALE_FACTOR, -camera.getAbsY()+camera.getAbsHeight()/2*Settings.SCALE_FACTOR);
+        graphics2D.setClip(0, 0, camera.getAbsWidth() * Settings.SCALE_FACTOR, camera.getAbsHeight() * Settings.SCALE_FACTOR);
+        graphics2D.translate(-camera.getAbsX() + camera.getAbsWidth() / 2 * Settings.SCALE_FACTOR, -camera.getAbsY() + camera.getAbsHeight() / 2 * Settings.SCALE_FACTOR);
 
         AffineTransform at = new AffineTransform();
-        at.translate(camera.getAbsWidth()/2d*Settings.SCALE_FACTOR, camera.getAbsHeight()/2d*Settings.SCALE_FACTOR);
+        at.translate(camera.getAbsWidth() / 2d * Settings.SCALE_FACTOR, camera.getAbsHeight() / 2d * Settings.SCALE_FACTOR);
         at.scale(Settings.SCALE_FACTOR, Settings.SCALE_FACTOR);
         at.translate(-camera.getAbsX(), -camera.getAbsY());
 

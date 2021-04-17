@@ -2,10 +2,10 @@ package fr.reminy.pokemon_discord.game;
 
 import java.awt.*;
 
-public class Camera extends GameObject{
-    private GameObject toFollow;
+public class Camera extends GameObject {
     private final int width;
     private final int height;
+    private GameObject toFollow;
 
     public Camera(GameObject toFollow, int width, int height) {
         super(toFollow.getX(), toFollow.getY());
@@ -23,15 +23,16 @@ public class Camera extends GameObject{
     }
 
     public int getAbsWidth() {
-        return width*16;
+        return width * 16;
     }
 
     public int getAbsHeight() {
-        return height*16;
+        return height * 16;
     }
 
     @Override
-    public void draw(Graphics2D graphics2D) {}
+    public void draw(Graphics2D graphics2D) {
+    }
 
     @Override
     public void update() {

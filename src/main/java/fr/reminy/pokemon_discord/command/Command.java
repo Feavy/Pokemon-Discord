@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface Command {
     String[] getLabels();
+
     String getDescription();
+
     Category getCategory();
+
     void execute(MessageEvent event, MessageAuthor author, TextChannel channel, List<String> args);
 }

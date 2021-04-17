@@ -6,7 +6,6 @@ import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.maps.PokemonMap;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.user.User;
-import org.mapeditor.core.Map;
 
 import java.awt.image.BufferedImage;
 import java.util.Optional;
@@ -16,11 +15,10 @@ public class PokemonGame {
     // -> serveur HTTP (quarkus) ? ou upload sur un hébergeur
     // Possibilité de se déplacer
 
-    private User user;
     private final Player player;
-    private PokemonMap currentMap;
     private final GameRenderer renderer;
-
+    private User user;
+    private PokemonMap currentMap;
     private Message linkedMessage = null;
 
     public PokemonGame(User user, Player player, PokemonMap currentMap) {
@@ -57,11 +55,11 @@ public class PokemonGame {
         return renderer;
     }
 
-    public void setLinkedMessage(Message linkedMessage) {
-        this.linkedMessage = linkedMessage;
-    }
-
     public Optional<Message> getLinkedMessage() {
         return Optional.ofNullable(linkedMessage);
+    }
+
+    public void setLinkedMessage(Message linkedMessage) {
+        this.linkedMessage = linkedMessage;
     }
 }

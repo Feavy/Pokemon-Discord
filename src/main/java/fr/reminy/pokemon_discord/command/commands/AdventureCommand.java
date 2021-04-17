@@ -1,6 +1,5 @@
 package fr.reminy.pokemon_discord.command.commands;
 
-import com.vdurmont.emoji.EmojiManager;
 import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
@@ -39,15 +38,15 @@ public class AdventureCommand implements Command {
 
     @Override
     public void execute(MessageEvent event, MessageAuthor author, TextChannel channel, List<String> args) {
-        if(author.asUser().isEmpty()) {
+        if (author.asUser().isEmpty()) {
             throw new RuntimeException("This command can only be executed by an user.");
         }
 
         User user = author.asUser().get();
         long userId = user.getId();
         PokemonGame playerGame = GameManager.INSTANCE.get(userId);
-        if(playerGame == null) {
-            playerGame = new PokemonGame(user, new Player(0,0), PokemonMap.BOURG_PEPIN);
+        if (playerGame == null) {
+            playerGame = new PokemonGame(user, new Player(0, 0), PokemonMap.BOURG_PEPIN);
             GameManager.INSTANCE.put(userId, playerGame);
         }
 

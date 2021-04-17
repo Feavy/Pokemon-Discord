@@ -1,11 +1,10 @@
 package fr.reminy.pokemon_discord;
 
-import fr.reminy.pokemon_discord.listeners.CommandListener;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
+import fr.reminy.pokemon_discord.listeners.CommandListener;
 import fr.reminy.pokemon_discord.listeners.ReactionListener;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
-import org.javacord.api.entity.intent.Intent;
 
 import java.io.IOException;
 
@@ -13,7 +12,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(args[0])
-                .setAllNonPrivilegedIntents()
                 .login().join();
 
         CommandListener commandListener = new CommandListener();
