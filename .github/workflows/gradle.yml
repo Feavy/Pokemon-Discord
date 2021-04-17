@@ -55,4 +55,4 @@ jobs:
         ssh azure 'chmod 700 /bot/run.sh'
         scp build/libs/pokemon-discord-poc-1.0-SNAPSHOT-all.jar azure:/bot
     - name: Start the bot
-      run: ssh azure '/bot/run.sh'
+      run: ssh azure 'sudo /bot/run.sh'
