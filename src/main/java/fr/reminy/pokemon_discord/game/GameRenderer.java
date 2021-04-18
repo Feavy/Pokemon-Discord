@@ -1,6 +1,7 @@
 package fr.reminy.pokemon_discord.game;
 
 import fr.reminy.pokemon_discord.Settings;
+import fr.reminy.pokemon_discord.game.entity.Player;
 import org.mapeditor.core.Map;
 import org.mapeditor.core.TileLayer;
 import org.mapeditor.view.OrthogonalRenderer;
@@ -39,15 +40,19 @@ public class GameRenderer {
 
         graphics2D.setTransform(at);
 
+        Player player = game.getPlayer();
         // Draw map layer 0 & 1
         orthogonalRenderer.paintTileLayer(graphics2D, (TileLayer) map.getLayer(0));
         orthogonalRenderer.paintTileLayer(graphics2D, (TileLayer) map.getLayer(1));
 
-        // draw characters
-        game.getPlayer().draw(graphics2D);
+        // draw character
+        if (player.getHeight() == 1)
+           game.getPlayer().draw(graphics2D);
 
         // Draw map layer 2
         orthogonalRenderer.paintTileLayer(graphics2D, (TileLayer) map.getLayer(2));
+        if (player.getHeight() > 1)
+            game.getPlayer().draw(graphics2D);
 
         return image;
     }

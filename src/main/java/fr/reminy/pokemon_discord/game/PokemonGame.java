@@ -1,11 +1,16 @@
 package fr.reminy.pokemon_discord.game;
 
 import fr.reminy.pokemon_discord.Settings;
+import fr.reminy.pokemon_discord.game.data.Collision;
+import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.game.maps.PokemonMap;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.user.User;
+import org.mapeditor.core.Map;
+import org.mapeditor.core.Tile;
+import org.mapeditor.core.TileLayer;
 
 import java.awt.image.BufferedImage;
 import java.util.Optional;
@@ -56,5 +61,69 @@ public class PokemonGame {
 
     public void setLinkedMessage(Message linkedMessage) {
         this.linkedMessage = linkedMessage;
+    }
+
+
+
+    public boolean isBlock(Collision collision) {
+
+        if (collision == null)
+            return false;
+
+        int height = player.getHeight();
+
+        switch (collision) {
+            case TILE_1C -> {
+                return height == 1;
+            }
+            case TILE_C1 ->  {
+                return height == 2;
+            }
+            case TILE_1 -> {
+                return true;
+            }
+            default -> {
+                return false;
+            }
+        }
+    }
+
+    public void move(Direction direction) {
+        player.changeDirection(direction);
+
+        int x = player.getX();
+        int y = player.getY();
+
+        switch (direction) {
+            case LEFT -> x--;
+            case RIGHT -> x++;
+            case UP -> y--;
+            case DOWN -> y++;
+        }
+
+        Map map = currentMap.getMap();
+        Tile tile = ((TileLayer)map.getLayer(3)).getTileAt(x,y);
+
+        Collision collision = null;
+        if (tile != null) {
+            long id = tile.getId();
+            collision = Collision.getCollisionById(id);
+        }
+
+        if (!isBlock(collision)) {
+            player.move(direction);
+            changeHeight(collision);
+        }
+    }
+
+    private void changeHeight(Collision collision) {
+
+        if (collision == null)
+            return;
+
+        switch (collision) {
+            case TILE_12 -> player.changeHeight(2);
+            case TILE_21 -> player.changeHeight(1);
+        }
     }
 }

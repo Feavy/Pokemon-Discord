@@ -3,6 +3,7 @@ package fr.reminy.pokemon_discord.listeners;
 import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
+import fr.reminy.pokemon_discord.game.data.Direction;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.reaction.ReactionAddEvent;
@@ -57,15 +58,16 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
 
+
         Emoji em = event.getReaction().get().getEmoji();
         if (eq(em, ":arrow_up:")) {
-            playerGame.getPlayer().moveUp();
+            playerGame.move(Direction.UP);
         } else if (eq(em, ":arrow_right:")) {
-            playerGame.getPlayer().moveRight();
+            playerGame.move(Direction.RIGHT);
         } else if (eq(em, ":arrow_down:")) {
-            playerGame.getPlayer().moveDown();
+            playerGame.move(Direction.DOWN);
         } else if (eq(em, ":arrow_left:")) {
-            playerGame.getPlayer().moveLeft();
+            playerGame.move(Direction.LEFT);
         }
 
         playerGame.update();
