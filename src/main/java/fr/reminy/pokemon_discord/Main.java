@@ -15,7 +15,7 @@ public class Main {
                 .setToken(args[0])
                 .login().join();
 
-        api.updateActivity(ActivityType.COMPETING, "a!help");
+        api.updateActivity(ActivityType.LISTENING, "a!help");
 
         CommandListener commandListener = new CommandListener();
         api.addMessageCreateListener(commandListener);
