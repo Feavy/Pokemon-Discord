@@ -88,7 +88,7 @@ public class PokemonGame {
         }
     }
 
-    public void move(Direction direction) {
+    public boolean move(Direction direction) {
         player.changeDirection(direction);
 
         int x = player.getX();
@@ -100,6 +100,7 @@ public class PokemonGame {
             case UP -> y--;
             case DOWN -> y++;
         }
+        System.out.println(x + " " + y);
 
         Map map = currentMap.getMap();
         Tile tile = ((TileLayer)map.getLayer(3)).getTileAt(x,y);
@@ -109,11 +110,15 @@ public class PokemonGame {
             long id = tile.getId();
             collision = Collision.getCollisionById(id);
         }
+        System.out.println(collision);
 
-        if (!isBlock(collision)) {
+        boolean block = isBlock(collision);
+
+        if (!block) {
             player.move(direction);
             changeHeight(collision);
         }
+        return block;
     }
 
     private void changeHeight(Collision collision) {

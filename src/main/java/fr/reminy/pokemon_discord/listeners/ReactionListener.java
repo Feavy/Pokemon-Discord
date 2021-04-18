@@ -60,14 +60,23 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
 
 
         Emoji em = event.getReaction().get().getEmoji();
+        boolean block;
         if (eq(em, ":arrow_up:")) {
-            playerGame.move(Direction.UP);
+            block = playerGame.move(Direction.UP);
         } else if (eq(em, ":arrow_right:")) {
-            playerGame.move(Direction.RIGHT);
+            block = playerGame.move(Direction.RIGHT);
         } else if (eq(em, ":arrow_down:")) {
-            playerGame.move(Direction.DOWN);
+            block = playerGame.move(Direction.DOWN);
         } else if (eq(em, ":arrow_left:")) {
-            playerGame.move(Direction.LEFT);
+            block = playerGame.move(Direction.LEFT);
+        } else {
+            return;
+        }
+
+        if (playerGame.getLinkedMessage().isPresent() && block)
+            playerGame.getLinkedMessage().get().addReaction(EmojiParser.parseToUnicode(":no_entry:"));
+        else {
+            playerGame.getLinkedMessage().get().removeReactionByEmoji(EmojiParser.parseToUnicode(":no_entry:"));
         }
 
         playerGame.update();

@@ -41,7 +41,7 @@ public class Character extends GameObject {
     @Override
     public void draw(Graphics2D graphics2D) {
         BufferedImage currentFrame = spriteSheet.getImage(0, facingDirection.ordinal());
-        graphics2D.drawImage(currentFrame, getAbsX(), getAbsY() - 10, null);
+        graphics2D.drawImage(currentFrame, getAbsX(), getAbsY() - 5, null);
     }
 
     @Override
