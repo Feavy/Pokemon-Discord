@@ -88,6 +88,7 @@ public class GameHttpServer {
     public String setPlayerImage(long userId, BufferedImage image) {
         playerImages.put(userId, image);
         return "http://"+serverIP+"/?player=" + userId + "&cv=" + UUID.randomUUID();
+        //return "http://localhost/?player=" + userId + "&cv=" + UUID.randomUUID();
     }
 
     public Map<String, String> queryToMap(String query) {
