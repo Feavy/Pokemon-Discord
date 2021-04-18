@@ -5,6 +5,7 @@ import fr.reminy.pokemon_discord.listeners.CommandListener;
 import fr.reminy.pokemon_discord.listeners.ReactionListener;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.entity.activity.ActivityType;
 
 import java.io.IOException;
 
@@ -13,6 +14,8 @@ public class Main {
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(args[0])
                 .login().join();
+
+        api.updateActivity(ActivityType.COMPETING, "a!help");
 
         CommandListener commandListener = new CommandListener();
         api.addMessageCreateListener(commandListener);
