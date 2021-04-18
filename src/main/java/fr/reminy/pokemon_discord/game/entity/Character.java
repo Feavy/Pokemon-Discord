@@ -10,36 +10,38 @@ import java.awt.image.BufferedImage;
 public class Character extends GameObject {
     private final SpriteSheet spriteSheet;
     private Direction facingDirection = Direction.DOWN;
+    private int height = 1;
 
     public Character(int x, int y, SpriteSheet spriteSheet) {
         super(x, y);
         this.spriteSheet = spriteSheet;
     }
 
-    public void moveLeft() {
-        this.x--;
-        facingDirection = Direction.LEFT;
+    public int getHeight() {
+        return height;
     }
 
-    public void moveRight() {
-        this.x++;
-        facingDirection = Direction.RIGHT;
+    public void move(Direction direction) {
+        switch (direction) {
+            case LEFT -> x--;
+            case RIGHT -> x++;
+            case UP -> y--;
+            case DOWN -> y++;
+        }
     }
 
-    public void moveUp() {
-        this.y--;
-        facingDirection = Direction.UP;
+    public void changeDirection(Direction direction) {
+        facingDirection = direction;
     }
 
-    public void moveDown() {
-        this.y++;
-        facingDirection = Direction.DOWN;
+    public void changeHeight(int height) {
+        this.height = height;
     }
 
     @Override
     public void draw(Graphics2D graphics2D) {
         BufferedImage currentFrame = spriteSheet.getImage(0, facingDirection.ordinal());
-        graphics2D.drawImage(currentFrame, getAbsX(), getAbsY() - 10, null);
+        graphics2D.drawImage(currentFrame, getAbsX(), getAbsY() - 5, null);
     }
 
     @Override

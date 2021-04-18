@@ -3,6 +3,7 @@ package fr.reminy.pokemon_discord.listeners;
 import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
+import fr.reminy.pokemon_discord.game.data.Direction;
 import org.javacord.api.entity.emoji.Emoji;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.reaction.ReactionAddEvent;
@@ -57,15 +58,25 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
 
+
         Emoji em = event.getReaction().get().getEmoji();
+        boolean block;
         if (eq(em, ":arrow_up:")) {
-            playerGame.getPlayer().moveUp();
+            block = playerGame.move(Direction.UP);
         } else if (eq(em, ":arrow_right:")) {
-            playerGame.getPlayer().moveRight();
+            block = playerGame.move(Direction.RIGHT);
         } else if (eq(em, ":arrow_down:")) {
-            playerGame.getPlayer().moveDown();
+            block = playerGame.move(Direction.DOWN);
         } else if (eq(em, ":arrow_left:")) {
-            playerGame.getPlayer().moveLeft();
+            block = playerGame.move(Direction.LEFT);
+        } else {
+            return;
+        }
+
+        if (playerGame.getLinkedMessage().isPresent() && block)
+            playerGame.getLinkedMessage().get().addReaction(EmojiParser.parseToUnicode(":no_entry:"));
+        else {
+            playerGame.getLinkedMessage().get().removeReactionByEmoji(EmojiParser.parseToUnicode(":no_entry:"));
         }
 
         playerGame.update();

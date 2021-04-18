@@ -46,7 +46,7 @@ public class AdventureCommand implements Command {
         long userId = user.getId();
         PokemonGame playerGame = GameManager.INSTANCE.get(userId);
         if (playerGame == null) {
-            playerGame = new PokemonGame(user, new Player(0, 0), PokemonMap.BOURG_PEPIN);
+            playerGame = new PokemonGame(user, new Player(15, 16), PokemonMap.BOURG_PEPIN);
             GameManager.INSTANCE.put(userId, playerGame);
         }
 

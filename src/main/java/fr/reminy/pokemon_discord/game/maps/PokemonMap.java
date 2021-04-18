@@ -1,7 +1,9 @@
 package fr.reminy.pokemon_discord.game.maps;
 
+import fr.reminy.pokemon_discord.game.data.Collision;
 import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;
 import org.mapeditor.core.Map;
+import org.mapeditor.core.TileLayer;
 
 public enum PokemonMap {
     BOURG_PEPIN("Bourg Pépin", "/maps/map infini.tmx");
