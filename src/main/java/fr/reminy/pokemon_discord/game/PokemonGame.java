@@ -25,12 +25,8 @@ public class PokemonGame {
     }
 
     public void update() {
-        if (linkedMessage.getAuthor().asUser().isEmpty()) {
-            return;
-        }
         BufferedImage rendered = getRenderer().render();
-        String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(linkedMessage.getAuthor().asUser().get().getId(), rendered);
-
+        String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(user.getId(), rendered);
         linkedMessage.edit(playerImageURL);
     }
 
