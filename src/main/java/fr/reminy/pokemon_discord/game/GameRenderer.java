@@ -42,6 +42,7 @@ public class GameRenderer {
         // Draw map layer 0 & 1
         orthogonalRenderer.paintTileLayer(graphics2D, (TileLayer) map.getLayer(0));
         orthogonalRenderer.paintTileLayer(graphics2D, (TileLayer) map.getLayer(1));
+        orthogonalRenderer.paintTileLayer(graphics2D, (TileLayer) map.getLayer(2));
 
         // draw characters
         game.getPlayer().draw(graphics2D);

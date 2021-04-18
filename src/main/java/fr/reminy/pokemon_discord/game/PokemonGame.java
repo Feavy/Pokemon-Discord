@@ -13,7 +13,7 @@ import java.util.Optional;
 public class PokemonGame {
     private final Player player;
     private final GameRenderer renderer;
-    private User user;
+    private final User user;
     private PokemonMap currentMap;
     private Message linkedMessage = null;
 
@@ -25,6 +25,9 @@ public class PokemonGame {
     }
 
     public void update() {
+        if (linkedMessage.getAuthor().asUser().isEmpty()) {
+            return;
+        }
         BufferedImage rendered = getRenderer().render();
         String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(linkedMessage.getAuthor().asUser().get().getId(), rendered);
 

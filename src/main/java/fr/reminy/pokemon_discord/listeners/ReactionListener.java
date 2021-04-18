@@ -41,12 +41,19 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
     }
 
     private void onReaction(SingleReactionEvent event, User user) {
+        if (event.getMessage().isEmpty()) {
+            return;
+        }
         PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(event.getMessage().get());
         if (playerGame == null) {
             return;
         }
 
         if (!playerGame.canPlay(user)) {
+            return;
+        }
+
+        if (event.getReaction().isEmpty()) {
             return;
         }
 
