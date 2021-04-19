@@ -25,10 +25,10 @@ public class GameHttpServer {
     private GameHttpServer() {
         try {
             URL checkip = new URL("http://checkip.amazonaws.com");
-            try(BufferedReader in = new BufferedReader(new InputStreamReader(
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(
                     checkip.openStream()))) {
                 serverIP = in.readLine();
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         } catch (MalformedURLException e) {
@@ -88,7 +88,7 @@ public class GameHttpServer {
     public String setPlayerImage(long userId, BufferedImage image) {
         playerImages.put(userId, image);
         //return "http://"+serverIP+":32768/?player=" + userId + "&cv=" + UUID.randomUUID();
-        return "http://"+serverIP+"/?player=" + userId + "&cv=" + UUID.randomUUID();
+        return "http://" + serverIP + "/?player=" + userId + "&cv=" + UUID.randomUUID();
     }
 
     public Map<String, String> queryToMap(String query) {
@@ -102,7 +102,7 @@ public class GameHttpServer {
                     result.put(entry[0], "");
                 }
             }
-        }catch (Exception ignore) {
+        } catch (Exception ignore) {
         }
         return result;
     }

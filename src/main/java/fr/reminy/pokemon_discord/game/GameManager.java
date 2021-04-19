@@ -9,6 +9,7 @@ public class GameManager extends HashMap<Long, PokemonGame> {
     public static final GameManager INSTANCE = new GameManager();
     private final Map<Message, PokemonGame> messageGameMap = new HashMap<>();
     private final Map<PokemonGame, Message> gameMessageMap = new HashMap<>();
+
     private GameManager() {
     }
 

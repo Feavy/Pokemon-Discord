@@ -20,18 +20,18 @@ public enum TileType {
     }
 
     public static TileType getTileTypeById(Integer id) {
-        if(id == null || id >= TileType.values().length) {
+        if (id == null || id >= TileType.values().length) {
             return TileType.TILE_1;
         }
         return TileType.values()[id];
     }
 
     public CollisionType getCollisionType(int h) {
-        if(h == 1) {
+        if (h == 1) {
             return collisionTypeLayer1;
-        }else if(h == 2){
+        } else if (h == 2) {
             return collisionTypeLayer2;
-        }else {
+        } else {
             return BLOCK;
         }
     }

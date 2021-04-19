@@ -3,6 +3,7 @@ package fr.reminy.pokemon_discord.game.maps;
 import fr.reminy.pokemon_discord.game.data.CollisionType;
 import fr.reminy.pokemon_discord.game.data.Position;
 import fr.reminy.pokemon_discord.game.data.TileType;
+import fr.reminy.pokemon_discord.game.entity.Character;
 import fr.reminy.pokemon_discord.game.render.Drawable;
 import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;
 import org.mapeditor.core.Tile;
@@ -12,8 +13,6 @@ import org.mapeditor.view.OrthogonalRenderer;
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import fr.reminy.pokemon_discord.game.entity.Character;
 
 public class Map implements Drawable {
     // MAPS
@@ -26,6 +25,17 @@ public class Map implements Drawable {
     public Map(String name, org.mapeditor.core.Map map) {
         this.name = name;
         this.map = map;
+    }
+
+    private static Map register(String name, String path) {
+        ClasspathTMXMapReader reader = new ClasspathTMXMapReader();
+        org.mapeditor.core.Map map = null;
+        try {
+            map = reader.readMap(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Map(name, map);
     }
 
     public String getName() {
@@ -46,7 +56,7 @@ public class Map implements Drawable {
 
     public TileType getTileType(int x, int y) {
         Tile tile = getLayer(3).getTileAt(x, y);
-        if(tile == null) {
+        if (tile == null) {
             return TileType.TILE_C;
         }
         return TileType.getTileTypeById(tile.getId());
@@ -57,7 +67,7 @@ public class Map implements Drawable {
     }
 
     public CollisionType getCollisionType(int x, int y, int h) {
-       return getTileType(x, y).getCollisionType(h);
+        return getTileType(x, y).getCollisionType(h);
     }
 
     public CollisionType getCollisionType(Position position) {
@@ -66,17 +76,6 @@ public class Map implements Drawable {
 
     public int getTileSize() {
         return map.getTileWidth();
-    }
-
-    private static Map register(String name, String path) {
-        ClasspathTMXMapReader reader = new ClasspathTMXMapReader();
-        org.mapeditor.core.Map map = null;
-        try {
-            map = reader.readMap(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Map(name, map);
     }
 
     @Override

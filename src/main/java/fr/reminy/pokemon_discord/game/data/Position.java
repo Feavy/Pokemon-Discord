@@ -50,7 +50,7 @@ public class Position implements Cloneable {
      * Abscisse en pixels
      */
     public int getAbsX() {
-        return x*16;
+        return x * 16;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Position implements Cloneable {
      * Ordonnée en pixels
      */
     public int getAbsY() {
-        return y*16;
+        return y * 16;
     }
 
     /**

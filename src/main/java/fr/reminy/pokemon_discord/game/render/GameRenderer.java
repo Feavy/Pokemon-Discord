@@ -2,10 +2,7 @@ package fr.reminy.pokemon_discord.game.render;
 
 import fr.reminy.pokemon_discord.Settings;
 import fr.reminy.pokemon_discord.game.PokemonGame;
-import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.maps.Map;
-import org.mapeditor.core.TileLayer;
-import org.mapeditor.view.OrthogonalRenderer;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

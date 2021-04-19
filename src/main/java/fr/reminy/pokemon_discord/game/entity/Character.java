@@ -1,9 +1,9 @@
 package fr.reminy.pokemon_discord.game.entity;
 
 import fr.reminy.pokemon_discord.game.GameObject;
+import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.data.TileType;
-import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
 
 import java.awt.*;
@@ -39,12 +39,12 @@ public class Character extends GameObject {
         changeDirection(direction);
         Location destination = getLocation().clone().add(direction.getOffset());
 
-        if(destination.getCollisionType() == AIR) {
+        if (destination.getCollisionType() == AIR) {
             getLocation().add(direction.getOffset());
             TileType type = destination.getTileType();
-            if(type == TileType.TILE_12) {
+            if (type == TileType.TILE_12) {
                 getLocation().setH(2);
-            } else if(type == TileType.TILE_21) {
+            } else if (type == TileType.TILE_21) {
                 getLocation().setH(1);
             }
             return true;

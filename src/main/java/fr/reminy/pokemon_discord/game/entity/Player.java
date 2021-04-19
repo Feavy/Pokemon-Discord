@@ -36,11 +36,11 @@ public class Player extends Character {
         super.draw(graphics2D);
         int width = graphics2D.getFontMetrics().stringWidth(username);
         int height = graphics2D.getFontMetrics().getHeight();
-        int x = getAbsX()+getSpriteSheet().getSpriteWidth()/4*Settings.SCALE_FACTOR-width/2;
-        int y = getAbsY()-getSpriteSheet().getSpriteHeight()-OFFSET/2;
+        int x = getAbsX() + getSpriteSheet().getSpriteWidth() / 4 * Settings.SCALE_FACTOR - width / 2;
+        int y = getAbsY() - getSpriteSheet().getSpriteHeight() - OFFSET / 2;
         graphics2D.setColor(new Color(0f, 0f, 0f, 0.75f));
-        graphics2D.fillRect(x-1, y-1, width+2, height+2);
+        graphics2D.fillRect(x - 1, y - 1, width + 2, height + 2);
         graphics2D.setColor(new Color(1f, 1f, 1f));
-        graphics2D.drawString(username, x, y+height-2);
+        graphics2D.drawString(username, x, y + height - 2);
     }
 }
