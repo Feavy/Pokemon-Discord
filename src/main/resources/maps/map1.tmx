@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.5" tiledversion="1.5.0" orientation="orthogonal" renderorder="left-up" width="15" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+ <properties>
+  <property name="test" type="bool" value="true"/>
+ </properties>
  <tileset firstgid="1" source="../tilesets/tileset.tsx"/>
  <tileset firstgid="14759" source="../tilesets/collisions.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="15" height="10">
@@ -31,6 +34,9 @@
 </data>
  </layer>
  <layer id="3" name="collisions" width="15" height="10" opacity="0.8">
+  <properties>
+   <property name="test" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,14759,14759,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -38,7 +44,7 @@
 0,0,0,0,0,0,14759,14759,14759,14759,14759,0,0,0,0,
 0,0,0,14759,14759,14759,14759,14759,14759,14759,14759,14759,14759,14759,0,
 0,0,0,14759,14759,14759,14759,14759,14759,14759,14759,14759,14759,14759,0,
-0,0,14759,14759,0,0,14759,14759,0,14759,14759,0,0,0,0,
+0,0,14759,14759,0,0,14759,14759,14764,14759,14759,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
