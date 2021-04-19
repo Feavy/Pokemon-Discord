@@ -20,6 +20,8 @@ public class GameRenderer {
     }
 
     public BufferedImage render() {
+        long before = System.currentTimeMillis();
+
         camera.update();
 
         Map map = game.getCurrentMap();
@@ -41,6 +43,8 @@ public class GameRenderer {
         graphics2D.setTransform(at);
 
         map.draw(graphics2D);
+
+        System.out.println("Took "+(System.currentTimeMillis()-before)+" ms to render the game.");
 
         return image;
     }
