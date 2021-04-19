@@ -1,5 +1,6 @@
 package fr.reminy.pokemon_discord.game.entity;
 
+import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
 
 import java.io.IOException;
@@ -15,8 +16,9 @@ public class Player extends Character {
         }
     }
 
-    public Player(int x, int y) {
-        super(x, y, RED_SPRITESHEET);
+    public Player(Location location) {
+        super(location, RED_SPRITESHEET);
+        location.getMap().addCharacter(this);
     }
 
     @Override

@@ -6,9 +6,10 @@ import fr.reminy.pokemon_discord.command.Command;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
 import fr.reminy.pokemon_discord.game.data.Emotes;
+import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
-import fr.reminy.pokemon_discord.game.maps.PokemonMap;
+import fr.reminy.pokemon_discord.game.maps.Map;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.emoji.KnownCustomEmoji;
@@ -46,7 +47,7 @@ public class AdventureCommand implements Command {
         long userId = user.getId();
         PokemonGame playerGame = GameManager.INSTANCE.get(userId);
         if (playerGame == null) {
-            playerGame = new PokemonGame(user, new Player(15, 16), PokemonMap.BOURG_PEPIN);
+            playerGame = new PokemonGame(user, new Player(new Location(15, 16, Map.BOURG_PEPIN)));
             GameManager.INSTANCE.put(userId, playerGame);
         }
 
