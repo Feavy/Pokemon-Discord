@@ -27,10 +27,12 @@ public enum TileType {
     }
 
     public CollisionType getCollisionType(int h) {
-        if(h == 0) {
+        if(h == 1) {
             return collisionTypeLayer1;
-        }else{
+        }else if(h == 2){
             return collisionTypeLayer2;
+        }else {
+            return BLOCK;
         }
     }
 }

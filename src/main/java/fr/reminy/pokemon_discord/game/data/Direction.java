@@ -6,13 +6,13 @@ public enum Direction {
     DOWN(new Position(0, 1)),
     LEFT(new Position(-1, 0));
 
-    private final Position position;
+    private final Position offset;
 
-    Direction(Position position) {
-        this.position = position;
+    Direction(Position offset) {
+        this.offset = offset;
     }
 
-    public Position toPosition() {
-        return position;
+    public Position getOffset() {
+        return offset;
     }
 }
