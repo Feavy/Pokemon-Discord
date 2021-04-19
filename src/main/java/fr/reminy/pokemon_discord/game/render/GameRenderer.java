@@ -9,6 +9,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class GameRenderer {
+    private final static Font DEFAULT_FONT = new Font("Default", 0, 8);
+
     private final PokemonGame game;
     private final Camera camera;
 
@@ -26,7 +28,7 @@ public class GameRenderer {
         BufferedImage image = new BufferedImage(camera.getWidth() * tileSize * Settings.SCALE_FACTOR, camera.getHeight() * tileSize * Settings.SCALE_FACTOR, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics2D = (Graphics2D) image.getGraphics();
 
-        graphics2D.setFont(new Font("Default", 0, 8));
+        graphics2D.setFont(DEFAULT_FONT);
 
         graphics2D.setClip(0, 0, camera.getAbsWidth() * Settings.SCALE_FACTOR, camera.getAbsHeight() * Settings.SCALE_FACTOR);
         graphics2D.translate(-camera.getAbsX() + camera.getAbsWidth() / 2 * Settings.SCALE_FACTOR, -camera.getAbsY() + camera.getAbsHeight() / 2 * Settings.SCALE_FACTOR);

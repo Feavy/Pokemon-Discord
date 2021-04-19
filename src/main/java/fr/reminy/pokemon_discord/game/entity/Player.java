@@ -31,16 +31,21 @@ public class Player extends Character {
 
     }
 
+    private int usernameWidth = -1;
+    private int usernameHeight = -1;
+
     @Override
     public void draw(Graphics2D graphics2D) {
         super.draw(graphics2D);
-        int width = graphics2D.getFontMetrics().stringWidth(username);
-        int height = graphics2D.getFontMetrics().getHeight();
-        int x = getAbsX() + getSpriteSheet().getSpriteWidth() / 4 * Settings.SCALE_FACTOR - width / 2;
+        if(usernameWidth == -1) {
+            usernameWidth = graphics2D.getFontMetrics().stringWidth(username);
+            usernameHeight = graphics2D.getFontMetrics().getHeight();
+        }
+        int x = getAbsX() + getSpriteSheet().getSpriteWidth() / 4 * Settings.SCALE_FACTOR - usernameWidth / 2;
         int y = getAbsY() - getSpriteSheet().getSpriteHeight() - OFFSET / 2;
         graphics2D.setColor(new Color(0f, 0f, 0f, 0.75f));
-        graphics2D.fillRect(x - 1, y - 1, width + 2, height + 2);
+        graphics2D.fillRect(x - 1, y - 1, usernameWidth + 2, usernameHeight + 2);
         graphics2D.setColor(new Color(1f, 1f, 1f));
-        graphics2D.drawString(username, x, y + height - 2);
+        graphics2D.drawString(username, x, y + usernameHeight - 2);
     }
 }
