@@ -18,6 +18,14 @@ public class SpriteSheet {
         this.spriteHeight = spriteHeight;
     }
 
+    public int getSpriteWidth() {
+        return spriteWidth;
+    }
+
+    public int getSpriteHeight() {
+        return spriteHeight;
+    }
+
     public String getName() {
         return name;
     }

@@ -1,4 +1,6 @@
-package fr.reminy.pokemon_discord.game;
+package fr.reminy.pokemon_discord.game.render;
+
+import fr.reminy.pokemon_discord.game.GameObject;
 
 import java.awt.*;
 
@@ -36,7 +38,6 @@ public class Camera extends GameObject {
 
     @Override
     public void update() {
-        this.x = toFollow.getX();
-        this.y = toFollow.getY();
+        getPosition().set(toFollow.getPosition());
     }
 }

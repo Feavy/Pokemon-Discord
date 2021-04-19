@@ -1,40 +1,42 @@
 package fr.reminy.pokemon_discord.game;
 
+import fr.reminy.pokemon_discord.game.data.Position;
+import fr.reminy.pokemon_discord.game.render.Drawable;
+
 import java.awt.*;
 
-public abstract class GameObject {
-    /**
-     * Abscisse en tiles
-     */
-    protected int x;
+public abstract class GameObject implements Drawable {
+    private Position position;
 
-    /**
-     * Ordonnée en tiles
-     */
-    protected int y;
+    public GameObject(Position position) {
+        this.position = position;
+    }
 
     public GameObject(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this(new Position(x, y));
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     public int getAbsX() {
-        return x * 16;
+        return position.getAbsX();
+    }
+
+    public int getAbsY() {
+        return position.getAbsY();
     }
 
     public abstract void draw(Graphics2D graphics2D);
-
-    public int getAbsY() {
-        return y * 16;
-    }
 
     public abstract void update();
 }
