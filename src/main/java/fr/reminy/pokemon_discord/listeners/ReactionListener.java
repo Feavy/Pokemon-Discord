@@ -1,6 +1,5 @@
 package fr.reminy.pokemon_discord.listeners;
 
-import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
 import fr.reminy.pokemon_discord.game.data.Direction;
@@ -71,9 +70,9 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
         boolean moved = player.move(direction);
 
         if (playerGame.getLinkedMessage().isPresent() && !moved)
-            playerGame.getLinkedMessage().get().addReaction(EmojiParser.parseToUnicode(":no_entry:"));
+            playerGame.getLinkedMessage().get().addReaction("⛔");
         else {
-            playerGame.getLinkedMessage().get().removeReactionByEmoji(EmojiParser.parseToUnicode(":no_entry:"));
+            playerGame.getLinkedMessage().get().removeReactionByEmoji("⛔");
         }
 
         playerGame.update();

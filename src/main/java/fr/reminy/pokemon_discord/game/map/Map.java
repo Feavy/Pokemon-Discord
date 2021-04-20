@@ -72,12 +72,10 @@ public class Map implements Drawable {
     }
 
     public Event getEventAt(Position position) {
-        System.out.println("EVENT");
         MapObject object = getLayer(Settings.ID_EVENTS, ObjectGroup.class).getObjectAt(position.getX()*TILE_SIZE, position.getY()*TILE_SIZE + TILE_SIZE);
         if (object == null) {
             return null;
         }
-        System.out.println("tile : " + object + "tile id : " + object.getTile().getId());
         int tileId = object.getTile().getId();
         Properties properties = object.getProperties();
         return Events.fromProperties(tileId, properties);
