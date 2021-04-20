@@ -54,7 +54,7 @@ public class Position implements Cloneable {
     }
 
     /**
-     * Ordonn�e en tiles
+     * Ordonnée en tiles
      */
     public int getY() {
         return y;
