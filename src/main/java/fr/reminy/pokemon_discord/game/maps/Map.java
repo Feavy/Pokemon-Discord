@@ -9,9 +9,7 @@ import fr.reminy.pokemon_discord.game.data.TileType;
 import fr.reminy.pokemon_discord.game.entity.Character;
 import fr.reminy.pokemon_discord.game.render.Drawable;
 import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;
-import org.mapeditor.core.Properties;
-import org.mapeditor.core.Tile;
-import org.mapeditor.core.TileLayer;
+import org.mapeditor.core.*;
 import org.mapeditor.view.OrthogonalRenderer;
 
 import java.awt.*;
@@ -20,22 +18,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Map implements Drawable {
+    public final int TILE_SIZE = 16;
+
+
+
     // MAPS
     private final static HashMap<String, Map> maps = new HashMap<>();
 
-    public final static Map BOURG_PEPIN = register("Bourg Pépin", "/maps/map infini.tmx");
+    public final static Map BOURG_PEPIN = register("Bourg Pépin", "/maps/bourg.tmx");
     public final static Map RED_HOUSE = register("Red's house", "/maps/red_house.tmx");
 
 
     private final String name;
     private final org.mapeditor.core.Map map;
     private final Set<Character> characters = new HashSet<>();
-    private final int id;
 
-    public Map(String name, org.mapeditor.core.Map map, int id) {
+    public Map(String name, org.mapeditor.core.Map map) {
         this.name = name;
         this.map = map;
-        this.id = id;
     }
 
     private static Map register(String name, String path) {
@@ -46,8 +46,7 @@ public class Map implements Drawable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        int id = maps.size();
-        Map m = new Map(name, map, id);
+        Map m = new Map(name, map);
         maps.put(name, m);
         return m;
     }
@@ -68,19 +67,24 @@ public class Map implements Drawable {
         characters.remove(character);
     }
 
-    public TileLayer getLayer(int index) {
-        return (TileLayer) map.getLayer(index);
+    public <T extends LayerData> T getLayer(int index, Class<T> type) {
+        return (T) map.getLayer(index);
     }
 
     public Event getEventAt(Position position) {
-        Tile tile = getLayer(Settings.ID_EVENTS).getTileAt(position.getX(), position.getY());
-        int tileId = tile.getId();
-        Properties properties = tile.getProperties();
+        System.out.println("EVENT");
+        MapObject object = getLayer(Settings.ID_EVENTS, ObjectGroup.class).getObjectAt(position.getX()*TILE_SIZE, position.getY()*TILE_SIZE + TILE_SIZE);
+        if (object == null) {
+            return null;
+        }
+        System.out.println("tile : " + object + "tile id : " + object.getTile().getId());
+        int tileId = object.getTile().getId();
+        Properties properties = object.getProperties();
         return Events.fromProperties(tileId, properties);
     }
 
     public TileType getTileType(int x, int y) {
-        Tile tile = getLayer(Settings.ID_COLLISIONS).getTileAt(x, y);
+        Tile tile = getLayer(Settings.ID_COLLISIONS, TileLayer.class).getTileAt(x, y);
         if (tile == null) {
             return TileType.TILE_C;
         }

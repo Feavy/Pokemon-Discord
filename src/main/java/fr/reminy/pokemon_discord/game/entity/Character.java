@@ -2,6 +2,7 @@ package fr.reminy.pokemon_discord.game.entity;
 
 import fr.reminy.pokemon_discord.game.GameObject;
 import fr.reminy.pokemon_discord.game.data.Direction;
+import fr.reminy.pokemon_discord.game.data.Event;
 import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.data.TileType;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
@@ -47,7 +48,9 @@ public class Character extends GameObject {
             } else if (type == TileType.TILE_21) {
                 getLocation().setH(1);
             }
-            getLocation().getEvent().executeOn(this);
+            Event e = getLocation().getEvent();
+            if (e != null)
+                e.executeOn(this);
             return true;
         } else {
             return false;

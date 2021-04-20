@@ -488,6 +488,8 @@
   <object id="22" gid="14765" x="480" y="112" width="16" height="16"/>
   <object id="23" gid="14765" x="464" y="240" width="16" height="16">
    <properties>
+    <property name="h" type="int" value="1"/>
+    <property name="h_destination" type="int" value="1"/>
     <property name="map" value="Red's house"/>
     <property name="x" type="int" value="7"/>
     <property name="y" type="int" value="9"/>
