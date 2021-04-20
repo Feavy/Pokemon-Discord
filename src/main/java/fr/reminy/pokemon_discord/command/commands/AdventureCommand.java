@@ -29,7 +29,7 @@ public class AdventureCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "D�marrer ou reprendre une aventure Pok�mon !";
+        return "Démarrer ou reprendre une aventure Pokémon !";
     }
 
     @Override
@@ -55,18 +55,16 @@ public class AdventureCommand implements Command {
         String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(userId, rendered);
 
         DiscordApi api = event.getApi();
-        Optional<KnownCustomEmoji> a = api.getCustomEmojiById(Emotes.A.getId());
-        Optional<KnownCustomEmoji> b = api.getCustomEmojiById(Emotes.B.getId());
 
         PokemonGame finalPlayerGame = playerGame;
         channel.sendMessage(playerImageURL).thenAccept(msg -> {
             GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame);
-            msg.addReaction(EmojiParser.parseToUnicode(":arrow_left:"));
-            msg.addReaction(EmojiParser.parseToUnicode(":arrow_up:"));
-            msg.addReaction(EmojiParser.parseToUnicode(":arrow_down:"));
-            msg.addReaction(EmojiParser.parseToUnicode(":arrow_right:"));
-            a.ifPresent(msg::addReaction);
-            b.ifPresent(msg::addReaction);
+            msg.addReaction("⬅️");
+            msg.addReaction("⬆️");
+            msg.addReaction("⬇️");
+            msg.addReaction("➡️");
+            msg.addReaction("🇦");
+            msg.addReaction("🇧");
         });
 
     }

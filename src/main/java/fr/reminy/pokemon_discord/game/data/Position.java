@@ -6,7 +6,7 @@ public class Position implements Cloneable {
      */
     private int x;
     /**
-     * Ordonnée en tiles
+     * OrdonnÃ©e en tiles
      */
     private int y;
     /**
@@ -54,14 +54,14 @@ public class Position implements Cloneable {
     }
 
     /**
-     * Ordonnée en tiles
+     * Ordonnï¿½e en tiles
      */
     public int getY() {
         return y;
     }
 
     /**
-     * Ordonnée en pixels
+     * OrdonnÃ©e en pixels
      */
     public int getAbsY() {
         return y * 16;

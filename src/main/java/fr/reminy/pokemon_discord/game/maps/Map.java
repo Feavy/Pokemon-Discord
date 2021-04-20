@@ -25,7 +25,7 @@ public class Map implements Drawable {
     // MAPS
     private final static HashMap<String, Map> maps = new HashMap<>();
 
-    public final static Map BOURG_PEPIN = register("Bourg Pépin", "/maps/bourg.tmx");
+    public final static Map BOURG_PEPIN = register("Bourg PÃ©pin", "/maps/bourg.tmx");
     public final static Map RED_HOUSE = register("Red's house", "/maps/red_house.tmx");
 
 
