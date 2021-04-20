@@ -59,23 +59,16 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
 
-
         Emoji em = event.getReaction().get().getEmoji();
         Player player = playerGame.getPlayer();
-        boolean moved;
-        if (eq(em, ":arrow_up:")) {
-            moved = player.move(Direction.UP);
-        } else if (eq(em, ":arrow_right:")) {
-            moved = player.move(Direction.RIGHT);
-        } else if (eq(em, ":arrow_down:")) {
-            moved = player.move(Direction.DOWN);
-        } else if (eq(em, ":arrow_left:")) {
-            moved = player.move(Direction.LEFT);
-        } else {
+
+        Direction direction = Direction.fromEmoji(em);
+
+        if(direction == null) {
             return;
         }
 
-
+        boolean moved = player.move(direction);
 
         if (playerGame.getLinkedMessage().isPresent() && !moved)
             playerGame.getLinkedMessage().get().addReaction(EmojiParser.parseToUnicode(":no_entry:"));
@@ -84,9 +77,5 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
         }
 
         playerGame.update();
-    }
-
-    private boolean eq(Emoji emoji, String unicode) {
-        return emoji.equalsEmoji(EmojiParser.parseToUnicode(unicode));
     }
 }
