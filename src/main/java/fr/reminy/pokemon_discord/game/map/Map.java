@@ -1,11 +1,11 @@
-package fr.reminy.pokemon_discord.game.maps;
+package fr.reminy.pokemon_discord.game.map;
 
 import fr.reminy.pokemon_discord.Settings;
-import fr.reminy.pokemon_discord.game.data.CollisionType;
-import fr.reminy.pokemon_discord.game.data.Event;
-import fr.reminy.pokemon_discord.game.data.Events;
+import fr.reminy.pokemon_discord.game.map.tile.CollisionType;
+import fr.reminy.pokemon_discord.game.map.event.Event;
+import fr.reminy.pokemon_discord.game.map.event.Events;
 import fr.reminy.pokemon_discord.game.data.Position;
-import fr.reminy.pokemon_discord.game.data.TileType;
+import fr.reminy.pokemon_discord.game.map.tile.TileType;
 import fr.reminy.pokemon_discord.game.entity.Character;
 import fr.reminy.pokemon_discord.game.render.Drawable;
 import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;

@@ -1,7 +1,7 @@
-package fr.reminy.pokemon_discord.game.data;
+package fr.reminy.pokemon_discord.game.map.tile;
 
-import static fr.reminy.pokemon_discord.game.data.CollisionType.AIR;
-import static fr.reminy.pokemon_discord.game.data.CollisionType.BLOCK;
+import static fr.reminy.pokemon_discord.game.map.tile.CollisionType.AIR;
+import static fr.reminy.pokemon_discord.game.map.tile.CollisionType.BLOCK;
 
 public enum TileType {
     TILE_1(BLOCK, BLOCK),

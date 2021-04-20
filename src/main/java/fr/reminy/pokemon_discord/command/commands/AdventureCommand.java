@@ -1,25 +1,21 @@
 package fr.reminy.pokemon_discord.command.commands;
 
-import com.vdurmont.emoji.EmojiParser;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
-import fr.reminy.pokemon_discord.game.data.Emotes;
 import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
-import fr.reminy.pokemon_discord.game.maps.Map;
+import fr.reminy.pokemon_discord.game.map.Map;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
-import org.javacord.api.entity.emoji.KnownCustomEmoji;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageEvent;
 
 import java.awt.image.BufferedImage;
 import java.util.List;
-import java.util.Optional;
 
 public class AdventureCommand implements Command {
     @Override

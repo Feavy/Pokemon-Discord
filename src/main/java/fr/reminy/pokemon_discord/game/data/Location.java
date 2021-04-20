@@ -1,6 +1,9 @@
 package fr.reminy.pokemon_discord.game.data;
 
-import fr.reminy.pokemon_discord.game.maps.Map;
+import fr.reminy.pokemon_discord.game.map.Map;
+import fr.reminy.pokemon_discord.game.map.event.Event;
+import fr.reminy.pokemon_discord.game.map.tile.CollisionType;
+import fr.reminy.pokemon_discord.game.map.tile.TileType;
 
 public class Location extends Position {
 

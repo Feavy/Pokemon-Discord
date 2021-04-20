@@ -1,4 +1,4 @@
-package fr.reminy.pokemon_discord.game.data;
+package fr.reminy.pokemon_discord.game.map.event;
 
 import fr.reminy.pokemon_discord.game.entity.Character;
 import fr.reminy.pokemon_discord.game.entity.Player;

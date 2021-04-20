@@ -3,7 +3,7 @@ package fr.reminy.pokemon_discord.game;
 import fr.reminy.pokemon_discord.Settings;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
-import fr.reminy.pokemon_discord.game.maps.Map;
+import fr.reminy.pokemon_discord.game.map.Map;
 import fr.reminy.pokemon_discord.game.render.Camera;
 import fr.reminy.pokemon_discord.game.render.GameRenderer;
 import org.javacord.api.entity.message.Message;

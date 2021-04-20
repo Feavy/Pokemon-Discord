@@ -2,15 +2,15 @@ package fr.reminy.pokemon_discord.game.entity;
 
 import fr.reminy.pokemon_discord.game.GameObject;
 import fr.reminy.pokemon_discord.game.data.Direction;
-import fr.reminy.pokemon_discord.game.data.Event;
+import fr.reminy.pokemon_discord.game.map.event.Event;
 import fr.reminy.pokemon_discord.game.data.Location;
-import fr.reminy.pokemon_discord.game.data.TileType;
+import fr.reminy.pokemon_discord.game.map.tile.TileType;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static fr.reminy.pokemon_discord.game.data.CollisionType.AIR;
+import static fr.reminy.pokemon_discord.game.map.tile.CollisionType.AIR;
 
 public class Character extends GameObject {
     public final int OFFSET = 5;

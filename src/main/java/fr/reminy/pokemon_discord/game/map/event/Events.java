@@ -1,5 +1,6 @@
-package fr.reminy.pokemon_discord.game.data;
+package fr.reminy.pokemon_discord.game.map.event;
 
+import fr.reminy.pokemon_discord.game.map.event.events.Warp;
 import org.mapeditor.core.Properties;
 
 import java.util.function.Function;

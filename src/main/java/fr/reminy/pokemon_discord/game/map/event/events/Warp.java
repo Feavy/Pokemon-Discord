@@ -1,8 +1,9 @@
-package fr.reminy.pokemon_discord.game.data;
+package fr.reminy.pokemon_discord.game.map.event.events;
 
+import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.entity.Character;
-import fr.reminy.pokemon_discord.game.entity.Player;
-import fr.reminy.pokemon_discord.game.maps.Map;
+import fr.reminy.pokemon_discord.game.map.Map;
+import fr.reminy.pokemon_discord.game.map.event.Event;
 import org.mapeditor.core.Properties;
 import org.mapeditor.core.Property;
 
