@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="Warp" color="#aa55ff">
+  <property name="map" type="file" default=""/>
+  <property name="x" type="int" default="0"/>
+  <property name="y" type="int" default="0"/>
+ </objecttype>
+</objecttypes>

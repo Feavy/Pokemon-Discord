@@ -3,6 +3,7 @@ package fr.reminy.pokemon_discord.game.data;
 import fr.reminy.pokemon_discord.game.maps.Map;
 
 public class Location extends Position {
+
     private Map map;
 
     public Location(int x, int y, int h, Map map) {
@@ -44,5 +45,15 @@ public class Location extends Position {
 
     public CollisionType getCollisionType() {
         return map.getCollisionType(this);
+    }
+
+    public Location set(Location position) {
+        super.set(position);
+        this.map = position.getMap();
+        return this;
+    }
+
+    public Event getEvent() {
+        return map.getEventAt(this);
     }
 }

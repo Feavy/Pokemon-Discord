@@ -75,6 +75,8 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
 
+
+
         if (playerGame.getLinkedMessage().isPresent() && !moved)
             playerGame.getLinkedMessage().get().addReaction(EmojiParser.parseToUnicode(":no_entry:"));
         else {

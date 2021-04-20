@@ -2,6 +2,7 @@ package fr.reminy.pokemon_discord.game.entity;
 
 import fr.reminy.pokemon_discord.game.GameObject;
 import fr.reminy.pokemon_discord.game.data.Direction;
+import fr.reminy.pokemon_discord.game.data.Event;
 import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.data.TileType;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
@@ -47,6 +48,9 @@ public class Character extends GameObject {
             } else if (type == TileType.TILE_21) {
                 getLocation().setH(1);
             }
+            Event e = getLocation().getEvent();
+            if (e != null)
+                e.executeOn(this);
             return true;
         } else {
             return false;
@@ -61,6 +65,12 @@ public class Character extends GameObject {
     public void draw(Graphics2D graphics2D) {
         BufferedImage currentFrame = spriteSheet.getImage(0, facingDirection.ordinal());
         graphics2D.drawImage(currentFrame, getAbsX(), getAbsY() - OFFSET, null);
+    }
+
+    public void teleportTo(Location destination) {
+        getLocation().getMap().removeCharacter(this);
+        getLocation().set(destination);
+        getLocation().getMap().addCharacter(this);
     }
 
     @Override

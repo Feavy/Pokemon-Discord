@@ -1,5 +1,6 @@
 package fr.reminy.pokemon_discord.game;
 
+import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.data.Position;
 import fr.reminy.pokemon_discord.game.render.Drawable;
 
