@@ -8,6 +8,7 @@ import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.game.map.Map;
+import fr.reminy.pokemon_discord.annotation.command.Register;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
@@ -17,10 +18,11 @@ import org.javacord.api.event.message.MessageEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
+@Register
 public class AdventureCommand implements Command {
     @Override
     public String[] getLabels() {
-        return new String[]{"aventure", "a"};
+        return new String[]{ "aventure", "a" };
     }
 
     @Override

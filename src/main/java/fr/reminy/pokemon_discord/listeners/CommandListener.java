@@ -16,8 +16,7 @@ public class CommandListener implements MessageCreateListener, MessageEditListen
     @Override
     public void onMessageCreate(MessageCreateEvent event) {
         List<String> args = new ArrayList<>(Arrays.asList(event.getMessageContent().split("\\s+")));
-        for (Commands command : Commands.values()) {
-            Command cmd = command.getCommand();
+        for (Command cmd : Commands.map().values()) {
             for (String label : cmd.getLabels()) {
                 String cmdLbl = Settings.PREFIX + label;
                 if (args.get(0).equalsIgnoreCase(cmdLbl)) {
@@ -35,8 +34,7 @@ public class CommandListener implements MessageCreateListener, MessageEditListen
             return;
         }
         List<String> args = new ArrayList<>(Arrays.asList(event.getNewContent().split("\\s+")));
-        for (Commands command : Commands.values()) {
-            Command cmd = command.getCommand();
+        for (Command cmd : Commands.map().values()) {
             for (String label : cmd.getLabels()) {
                 String cmdLbl = Settings.PREFIX + label;
                 if (args.get(0).equalsIgnoreCase(cmdLbl)) {

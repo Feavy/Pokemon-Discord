@@ -1,2 +1,3 @@
 rootProject.name = 'pokemon-discord-poc'
+include 'processor'
 

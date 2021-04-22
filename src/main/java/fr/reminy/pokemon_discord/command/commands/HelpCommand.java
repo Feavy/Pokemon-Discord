@@ -4,21 +4,22 @@ import fr.reminy.pokemon_discord.Settings;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
 import fr.reminy.pokemon_discord.command.Commands;
+import fr.reminy.pokemon_discord.annotation.command.Register;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.event.message.MessageEvent;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Register
 public class HelpCommand implements Command {
 
     @Override
     public String[] getLabels() {
-        return new String[]{"help", "h"};
+        return new String[]{ "help", "h" };
     }
 
     @Override
@@ -33,9 +34,7 @@ public class HelpCommand implements Command {
 
     @Override
     public void execute(MessageEvent event, MessageAuthor author, TextChannel channel, List<String> args) {
-        Map<Category, List<Command>> commands = Arrays.stream(Commands.values())
-                .map(Commands::getCommand)
-                .collect(Collectors.groupingBy(Command::getCategory));
+        Map<Category, List<Command>> commands = Commands.set().stream().collect(Collectors.groupingBy(Command::getCategory));
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
