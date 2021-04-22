@@ -40,6 +40,8 @@ public class CommandProcessor extends AbstractProcessor {
             writer.println("import java.util.HashMap;");
             writer.println("import java.util.Set;");
             writer.println("import java.util.HashSet;");
+            writer.println("import java.util.List;");
+            writer.println("import java.util.ArrayList;");
             writer.println("import java.util.Optional;");
             writer.println("");
             writer.println("public class Commands {");
@@ -64,8 +66,8 @@ public class CommandProcessor extends AbstractProcessor {
             writer.println("        return Optional.ofNullable(map.get(label));");
             writer.println("    }");
             writer.println("");
-            writer.println("    public static Set<Command> set() {");
-            writer.println("        return set;");
+            writer.println("    public static List<Command> list() {");
+            writer.println("        return new ArrayList<>(set);");
             writer.println("    }");
             writer.println("");
             writer.println("    public static Map<String, Command> map() {");

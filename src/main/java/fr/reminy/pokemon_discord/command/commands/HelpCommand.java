@@ -34,7 +34,7 @@ public class HelpCommand implements Command {
 
     @Override
     public void execute(MessageEvent event, MessageAuthor author, TextChannel channel, List<String> args) {
-        Map<Category, List<Command>> commands = Commands.set().stream().collect(Collectors.groupingBy(Command::getCategory));
+        Map<Category, List<Command>> commands = Commands.list().stream().collect(Collectors.groupingBy(Command::getCategory));
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
