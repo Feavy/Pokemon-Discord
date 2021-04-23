@@ -5,4 +5,4 @@
 
 Play Pokémon inside Discord!
 
-![Example](https://s3.gifyu.com/images/pokemon.gif)
+![Example gif](https://s3.gifyu.com/images/pokemon76114b4e60c4ae27.gif)
