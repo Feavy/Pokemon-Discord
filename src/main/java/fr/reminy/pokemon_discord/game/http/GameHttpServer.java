@@ -17,6 +17,8 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 
 public class GameHttpServer {
+    private static final int PORT = 8081;
+
     public final static GameHttpServer INSTANCE = new GameHttpServer();
     private final Map<Long, BufferedImage> playerImages = new HashMap<>();
 
@@ -37,7 +39,7 @@ public class GameHttpServer {
     }
 
     public void start() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
         HttpContext context = server.createContext("/");
         server.setExecutor(Executors.newFixedThreadPool(10));
         context.setHandler(this::handleRequest);
@@ -88,7 +90,7 @@ public class GameHttpServer {
     public String setPlayerImage(long userId, BufferedImage image) {
         playerImages.put(userId, image);
         //return "http://"+serverIP+":32768/?player=" + userId + "&cv=" + UUID.randomUUID();
-        return "http://" + serverIP + "/?player=" + userId + "&cv=" + UUID.randomUUID();
+        return "http://" + serverIP + ":" + PORT + "/?player=" + userId + "&cv=" + UUID.randomUUID();
     }
 
     public Map<String, String> queryToMap(String query) {
