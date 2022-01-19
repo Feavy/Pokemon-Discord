@@ -26,5 +26,7 @@ public class Main {
         api.addReactionRemoveListener(reactionListener);
 
         GameHttpServer.INSTANCE.start();
+
+        System.out.println("Ready!");
     }
 }

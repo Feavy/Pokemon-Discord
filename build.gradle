@@ -11,11 +11,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
-    implementation 'org.javacord:javacord:3.3.0'
-    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.11.0'
+    implementation 'org.javacord:javacord:3.3.2'
+    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.17.0'
 
     implementation group: 'org.mapeditor', name: 'libtiled', version: '1.2.3'
 
