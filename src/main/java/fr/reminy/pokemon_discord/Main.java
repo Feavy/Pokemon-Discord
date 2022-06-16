@@ -16,6 +16,10 @@ public class Main {
                 .setToken(args[0])
                 .login().join();
 
+        if(args.length > 1 && "production".equalsIgnoreCase(args[1])) {
+            Settings.IS_PRODUCTION = true;
+        }
+
         api.updateActivity(ActivityType.LISTENING, "a!help");
 
         CommandListener commandListener = new CommandListener();

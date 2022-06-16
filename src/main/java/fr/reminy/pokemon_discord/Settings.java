@@ -7,4 +7,5 @@ public class Settings {
     public static final int SCALE_FACTOR = 2;
     public static final int ID_COLLISIONS = 3;
     public static final int ID_EVENTS = 4;
+    public static boolean IS_PRODUCTION = false;
 }

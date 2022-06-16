@@ -49,7 +49,7 @@ jobs:
       run: ssh azure "sudo pkill -f 'java11 -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT-all.jar'"
     - name: Upload jar on Azure VM
       run: |
-        ssh azure 'echo "/usr/bin/java11 -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT-all.jar ${{ secrets.BOT_TOKEN }} >> /pokemon/log.txt 2>> /pokemon/log.txt" > /pokemon/run.sh'
+        ssh azure 'echo "/usr/bin/java11 -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT-all.jar ${{ secrets.BOT_TOKEN }} production >> /pokemon/log.txt 2>> /pokemon/log.txt" > /pokemon/run.sh'
         ssh azure 'chmod 700 /pokemon/run.sh'
         scp build/libs/pokemon-discord-poc-1.0-SNAPSHOT-all.jar azure:/pokemon
     - name: Start the bot
