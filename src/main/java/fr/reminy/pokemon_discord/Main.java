@@ -10,6 +10,7 @@ import org.javacord.api.entity.activity.ActivityType;
 import java.io.IOException;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(args[0])

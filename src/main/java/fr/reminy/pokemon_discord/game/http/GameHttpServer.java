@@ -1,5 +1,8 @@
 package fr.reminy.pokemon_discord.game.http;
 
+import com.github.alexdlaird.ngrok.NgrokClient;
+import com.github.alexdlaird.ngrok.protocol.CreateTunnel;
+import com.github.alexdlaird.ngrok.protocol.Tunnel;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,7 +20,17 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 
 public class GameHttpServer {
+
     private static final int PORT = 8081;
+
+    final NgrokClient ngrokClient = new NgrokClient.Builder().build();
+    final CreateTunnel createTunnel = new CreateTunnel.Builder()
+            .withAddr(PORT)
+            .build();
+    // Open a HTTP tunnel on port 8080
+// <Tunnel: "http://<public_sub>.ngrok.io" -> "http://localhost:8080">
+    final Tunnel httpTunnel = ngrokClient.connect(createTunnel);
+
 
     public final static GameHttpServer INSTANCE = new GameHttpServer();
     private final Map<Long, BufferedImage> playerImages = new HashMap<>();
@@ -90,7 +103,8 @@ public class GameHttpServer {
     public String setPlayerImage(long userId, BufferedImage image) {
         playerImages.put(userId, image);
         //return "http://"+serverIP+":32768/?player=" + userId + "&cv=" + UUID.randomUUID();
-        return "http://" + serverIP + ":" + PORT + "/?player=" + userId + "&cv=" + UUID.randomUUID();
+        return httpTunnel.getPublicUrl() + "/?player=" + userId + "&cv=" + UUID.randomUUID();
+        //return "http://" + serverIP + ":" + PORT + "/?player=" + userId + "&cv=" + UUID.randomUUID();
     }
 
     public Map<String, String> queryToMap(String query) {
