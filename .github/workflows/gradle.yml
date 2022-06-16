@@ -46,8 +46,9 @@ jobs:
         SSH_KEY: ${{ secrets.SSH_KEY }}
         SSH_HOST: ${{ secrets.SSH_HOST }}
     - name: Stop the bot
-      run: ssh azure "sudo pkill -f 'java -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT.jar'"
       run: ssh azure "sudo pkill -f 'java -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT-all.jar'"
+    - name: Stop the bot v2
+      run: ssh azure "sudo pkill -f 'java -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT.jar'"
     - name: Upload jar on Azure VM
       run: |
         ssh azure 'echo "/usr/bin/java11 -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT.jar ${{ secrets.BOT_TOKEN }} >> /pokemon/log.txt 2>> /pokemon/log.txt" > /pokemon/run.sh'
