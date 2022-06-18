@@ -1,6 +1,7 @@
 package fr.reminy.pokemon_discord.Components;
 
 import fr.reminy.pokemon_discord.game.GameManager;
+import fr.reminy.pokemon_discord.game.PokemonGame;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.interaction.MessageComponentInteraction;
@@ -16,8 +17,15 @@ public class ComponentsReaction {
             switch (customId) {
                 case "Vit-":
                     messageComponentInteraction.getMessage().ifPresent(msg -> {
-                        Player player = GameManager.INSTANCE.getGameByMessage(msg).getPlayer();
-                        player.slower();
+                        PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
+                        if (playerGame == null) {
+                            return;
+                        }
+                        if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
+                            return;
+                        }
+
+                        playerGame.getPlayer().slower();
                         messageComponentInteraction.createImmediateResponder()
                                 .respond();
                     });
@@ -25,8 +33,15 @@ public class ComponentsReaction {
 
                 case "Vit+":
                     messageComponentInteraction.getMessage().ifPresent(msg -> {
-                        Player player = GameManager.INSTANCE.getGameByMessage(msg).getPlayer();
-                        player.faster();
+                        PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
+                        if (playerGame == null) {
+                            return;
+                        }
+                        if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
+                            return;
+                        }
+
+                        playerGame.getPlayer().faster();
                         messageComponentInteraction.createImmediateResponder()
                                 .respond();
                     });
