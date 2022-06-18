@@ -19,6 +19,7 @@ public class Player extends Character {
     }
 
     private final String username;
+    private int speed = 1;
 
     public Player(String username, Location location) {
         super(location, RED_SPRITESHEET);
@@ -47,5 +48,31 @@ public class Player extends Character {
         graphics2D.fillRect(x - 1, y - 1, usernameWidth + 2, usernameHeight + 2);
         graphics2D.setColor(new Color(1f, 1f, 1f));
         graphics2D.drawString(username, x, y + usernameHeight - 2);
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    private void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public int faster(int add) {
+        setSpeed(getSpeed() + add);
+        return getSpeed();
+    }
+
+    public int faster() {
+        return faster(1);
+    }
+
+    public int slower(int sub) {
+        setSpeed(Math.max(getSpeed() - sub, 1));
+        return getSpeed();
+    }
+
+    public int slower() {
+        return slower(1);
     }
 }

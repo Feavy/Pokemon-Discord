@@ -1,5 +1,6 @@
 package fr.reminy.pokemon_discord.command.commands;
 
+import fr.reminy.pokemon_discord.annotation.command.Register;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
 import fr.reminy.pokemon_discord.game.GameManager;
@@ -8,10 +9,13 @@ import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.game.map.Map;
-import fr.reminy.pokemon_discord.annotation.command.Register;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
+import org.javacord.api.entity.message.MessageBuilder;
+import org.javacord.api.entity.message.component.ActionRow;
+import org.javacord.api.entity.message.component.Button;
+import org.javacord.api.entity.message.component.ButtonStyle;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageEvent;
 
@@ -22,7 +26,7 @@ import java.util.List;
 public class AdventureCommand implements Command {
     @Override
     public String[] getLabels() {
-        return new String[]{ "aventure", "a" };
+        return new String[]{"aventure", "a"};
     }
 
     @Override
@@ -55,15 +59,25 @@ public class AdventureCommand implements Command {
         DiscordApi api = event.getApi();
 
         PokemonGame finalPlayerGame = playerGame;
-        channel.sendMessage(playerImageURL).thenAccept(msg -> {
-            GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame);
-            msg.addReaction("⬅️");
-            msg.addReaction("⬆️");
-            msg.addReaction("⬇️");
-            msg.addReaction("➡️");
-            msg.addReaction("🇦");
-            msg.addReaction("🇧");
-        });
 
+        MessageBuilder messageBuilder = new MessageBuilder();
+        messageBuilder
+                .setContent(playerImageURL)
+                .addComponents(
+                        ActionRow.of(
+                                Button.create("Vit-", ButtonStyle.SECONDARY, "Vitesse -1"),
+                                Button.create("Vit+", ButtonStyle.SECONDARY, "Vitesse +1"),
+                                Button.create("Menu", ButtonStyle.PRIMARY, "Menu")
+                        )
+                ).send(channel).thenAccept(msg -> {
+                            GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame);
+                            msg.addReaction("⬅️");
+                            msg.addReaction("⬆️");
+                            msg.addReaction("⬇️");
+                            msg.addReaction("➡️");
+                            msg.addReaction("🇦");
+                            msg.addReaction("🇧");
+                        }
+                );
     }
 }
