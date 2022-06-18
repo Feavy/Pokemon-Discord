@@ -24,11 +24,6 @@ public class GameHttpServer {
 
     private static final int PORT = 8081;
 
-    final NgrokClient ngrokClient = new NgrokClient.Builder().build();
-    final CreateTunnel createTunnel = new CreateTunnel.Builder().withAddr(PORT).build();
-    final Tunnel httpTunnel = ngrokClient.connect(createTunnel);
-
-
     public final static GameHttpServer INSTANCE = new GameHttpServer();
     private final Map<Long, BufferedImage> playerImages = new HashMap<>();
 
@@ -48,6 +43,13 @@ public class GameHttpServer {
                 e.printStackTrace();
             }
         } else {
+            NgrokClient ngrokClient = new NgrokClient.Builder().build();
+            CreateTunnel createTunnel = new CreateTunnel.Builder().withAddr(PORT).build();
+
+            // Open a HTTP tunnel on port 8080
+            // <Tunnel: "http://<public_sub>.ngrok.io" -> "http://localhost:8080">
+            Tunnel httpTunnel = ngrokClient.connect(createTunnel);
+
             address = httpTunnel.getPublicUrl();
         }
     }
