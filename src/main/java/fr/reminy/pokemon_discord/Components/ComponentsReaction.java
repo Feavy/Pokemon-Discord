@@ -2,7 +2,6 @@ package fr.reminy.pokemon_discord.Components;
 
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
-import fr.reminy.pokemon_discord.game.entity.Player;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.interaction.MessageComponentInteraction;
 
