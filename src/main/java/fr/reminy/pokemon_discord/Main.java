@@ -1,5 +1,6 @@
 package fr.reminy.pokemon_discord;
 
+import fr.reminy.pokemon_discord.Components.ComponentsReaction;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.listeners.CommandListener;
 import fr.reminy.pokemon_discord.listeners.ReactionListener;
@@ -29,6 +30,8 @@ public class Main {
         ReactionListener reactionListener = new ReactionListener();
         api.addReactionAddListener(reactionListener);
         api.addReactionRemoveListener(reactionListener);
+
+        new ComponentsReaction(api);
 
         GameHttpServer.INSTANCE.start();
 

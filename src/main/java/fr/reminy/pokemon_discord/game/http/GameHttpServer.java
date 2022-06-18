@@ -26,8 +26,6 @@ public class GameHttpServer {
 
     final NgrokClient ngrokClient = new NgrokClient.Builder().build();
     final CreateTunnel createTunnel = new CreateTunnel.Builder().withAddr(PORT).build();
-    // Open a HTTP tunnel on port 8080
-    // <Tunnel: "http://<public_sub>.ngrok.io" -> "http://localhost:8080">
     final Tunnel httpTunnel = ngrokClient.connect(createTunnel);
 
 

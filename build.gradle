@@ -43,5 +43,6 @@ jar {
                 'Main-Class': 'fr.reminy.pokemon_discord.Main'
     }
 }
+
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
