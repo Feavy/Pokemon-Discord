@@ -3,6 +3,7 @@ package fr.reminy.pokemon_discord.Components;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
 import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.message.Message;
 import org.javacord.api.interaction.MessageComponentInteraction;
 
 public class ComponentsReaction {
@@ -14,37 +15,37 @@ public class ComponentsReaction {
             String customId = messageComponentInteraction.getCustomId();
 
             switch (customId) {
-                case "Vit-":
-                    messageComponentInteraction.getMessage().ifPresent(msg -> {
-                        PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
-                        if (playerGame == null) {
-                            return;
-                        }
-                        if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
-                            return;
-                        }
+                case "Vit-": {
+                    Message msg = messageComponentInteraction.getMessage();
+                    messageComponentInteraction.getMessage();
+                    PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
+                    if (playerGame == null) {
+                        return;
+                    }
+                    if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
+                        return;
+                    }
 
-                        playerGame.getPlayer().slower();
-                        messageComponentInteraction.createImmediateResponder()
-                                .respond();
-                    });
+                    playerGame.getPlayer().slower();
+                    messageComponentInteraction.createImmediateResponder()
+                            .respond();
                     break;
+                }
+                case "Vit+": {
+                    Message msg = messageComponentInteraction.getMessage();
+                    PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
+                    if (playerGame == null) {
+                        return;
+                    }
+                    if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
+                        return;
+                    }
 
-                case "Vit+":
-                    messageComponentInteraction.getMessage().ifPresent(msg -> {
-                        PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
-                        if (playerGame == null) {
-                            return;
-                        }
-                        if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
-                            return;
-                        }
-
-                        playerGame.getPlayer().faster();
-                        messageComponentInteraction.createImmediateResponder()
-                                .respond();
-                    });
+                    playerGame.getPlayer().faster();
+                    messageComponentInteraction.createImmediateResponder()
+                            .respond();
                     break;
+                }
             }
         });
     }
