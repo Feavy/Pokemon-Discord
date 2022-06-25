@@ -5,6 +5,8 @@ import fr.reminy.pokemon_discord.game.PokemonGame;
 import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import org.javacord.api.entity.emoji.Emoji;
+import org.javacord.api.entity.message.MessageAuthor;
+import org.javacord.api.entity.message.Reaction;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.reaction.ReactionAddEvent;
 import org.javacord.api.event.message.reaction.ReactionRemoveEvent;
@@ -24,12 +26,9 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
     }
 
     private void onReaction(SingleReactionEvent event) {
-        if (event.getReaction().isEmpty()
-                || event.getReaction().get().getEmoji().asUnicodeEmoji().isEmpty()
-                || event.getMessage().isEmpty()
-                || event.getMessageAuthor().isEmpty()
-                || event.getMessageAuthor().get().asUser().isEmpty()
-                || event.getUser().isPresent() && event.getUser().get().isBot()) {
+        if (event.getReaction().map(Reaction::getEmoji).map(Emoji::asUnicodeEmoji).isEmpty()
+                || event.getMessageAuthor().map(MessageAuthor::asUser).isEmpty()
+                || event.getUser().filter(User::isBot).isPresent()) {
             return;
         }
 
@@ -63,7 +62,7 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
 
         Direction direction = Direction.fromEmoji(em);
 
-        if(direction == null) {
+        if (direction == null) {
             return;
         }
 
