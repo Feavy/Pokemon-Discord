@@ -45,15 +45,7 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
         PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(event.getMessage().get());
-        if (playerGame == null) {
-            return;
-        }
-
-        if (!playerGame.canPlay(user)) {
-            return;
-        }
-
-        if (event.getReaction().isEmpty()) {
+        if (playerGame == null || !playerGame.canPlay(user) || event.getReaction().isEmpty()) {
             return;
         }
 
