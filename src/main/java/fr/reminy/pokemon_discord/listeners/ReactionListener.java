@@ -67,16 +67,7 @@ public class ReactionListener implements ReactionAddListener, ReactionRemoveList
             return;
         }
 
-        for (int i = 0; i < player.getSpeed(); i++) {
-            boolean moved = player.move(direction);
-
-            if (playerGame.getLinkedMessage().isPresent() && !moved) {
-                playerGame.getLinkedMessage().get().addReaction("⛔");
-                break;
-            } else {
-                playerGame.getLinkedMessage().get().removeReactionByEmoji("⛔");
-            }
-        }
+        player.move(direction);
 
         playerGame.update();
     }

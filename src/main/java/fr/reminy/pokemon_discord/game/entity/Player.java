@@ -1,6 +1,8 @@
 package fr.reminy.pokemon_discord.game.entity;
 
 import fr.reminy.pokemon_discord.Settings;
+import fr.reminy.pokemon_discord.game.PokemonGame;
+import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.img.SpriteSheet;
 
@@ -20,11 +22,16 @@ public class Player extends Character {
 
     private final String username;
     private int speed = 1;
+    private PokemonGame game;
 
     public Player(String username, Location location) {
         super(location, RED_SPRITESHEET);
         this.username = username;
         location.getMap().addCharacter(this);
+    }
+
+    public void setGame(PokemonGame pokemonGame) {
+        this.game = pokemonGame;
     }
 
     @Override
@@ -48,6 +55,21 @@ public class Player extends Character {
         graphics2D.fillRect(x - 1, y - 1, usernameWidth + 2, usernameHeight + 2);
         graphics2D.setColor(new Color(1f, 1f, 1f));
         graphics2D.drawString(username, x, y + usernameHeight - 2);
+    }
+
+    @Override
+    public boolean move(Direction direction) {
+        // TODO à déplacer dans Player
+        for (int i = 0; i < speed; i++) {
+            boolean moved = super.move(direction);
+
+            if(!moved) {
+                game.getLinkedMessage().ifPresent(msg -> msg.addReaction("⛔"));
+                return false;
+            }
+        }
+        game.getLinkedMessage().ifPresent(msg -> msg.removeReactionByEmoji("⛔"));
+        return true;
     }
 
     public int getSpeed() {

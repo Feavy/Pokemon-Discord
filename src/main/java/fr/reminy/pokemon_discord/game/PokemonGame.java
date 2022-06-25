@@ -22,6 +22,7 @@ public class PokemonGame {
         this.user = user;
         this.player = player;
         renderer = new GameRenderer(this, new Camera(player, Settings.CAMERA_WIDTH, Settings.CAMERA_HEIGHT));
+        player.setGame(this);
     }
 
     public void update() {

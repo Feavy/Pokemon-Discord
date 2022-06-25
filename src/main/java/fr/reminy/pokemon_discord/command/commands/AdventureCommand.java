@@ -3,19 +3,18 @@ package fr.reminy.pokemon_discord.command.commands;
 import fr.reminy.pokemon_discord.annotation.command.Register;
 import fr.reminy.pokemon_discord.command.Category;
 import fr.reminy.pokemon_discord.command.Command;
+import fr.reminy.pokemon_discord.components.buttons.Buttons;
 import fr.reminy.pokemon_discord.game.GameManager;
 import fr.reminy.pokemon_discord.game.PokemonGame;
+import fr.reminy.pokemon_discord.game.data.Direction;
 import fr.reminy.pokemon_discord.game.data.Location;
 import fr.reminy.pokemon_discord.game.entity.Player;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.game.map.Map;
-import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.component.ActionRow;
-import org.javacord.api.entity.message.component.Button;
-import org.javacord.api.entity.message.component.ButtonStyle;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageEvent;
 
@@ -56,25 +55,18 @@ public class AdventureCommand implements Command {
         BufferedImage rendered = playerGame.getRenderer().render();
         String playerImageURL = GameHttpServer.INSTANCE.setPlayerImage(userId, rendered);
 
-        DiscordApi api = event.getApi();
-
         PokemonGame finalPlayerGame = playerGame;
 
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder
                 .setContent(playerImageURL)
-                .addComponents(
-                        ActionRow.of(
-                                Button.create("Vit-", ButtonStyle.SECONDARY, "Vitesse -1"),
-                                Button.create("Vit+", ButtonStyle.SECONDARY, "Vitesse +1"),
-                                Button.create("Menu", ButtonStyle.PRIMARY, "Menu")
-                        )
-                ).send(channel).thenAccept(msg -> {
+                .addComponents(ActionRow.of(Buttons.VITESSE_MINUS, Buttons.VITESSE_PLUS))
+                .send(channel).thenAccept(msg -> {
                             GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame);
-                            msg.addReaction("⬅️");
-                            msg.addReaction("⬆️");
-                            msg.addReaction("⬇️");
-                            msg.addReaction("➡️");
+                            msg.addReaction(Direction.LEFT.asEmoji());
+                            msg.addReaction(Direction.UP.asEmoji());
+                            msg.addReaction(Direction.DOWN.asEmoji());
+                            msg.addReaction(Direction.RIGHT.asEmoji());
                             msg.addReaction("🇦");
                             msg.addReaction("🇧");
                         }
