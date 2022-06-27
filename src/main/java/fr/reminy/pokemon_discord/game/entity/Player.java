@@ -34,6 +34,10 @@ public class Player extends Character {
         this.game = pokemonGame;
     }
 
+    public PokemonGame game() {
+        return game;
+    }
+
     @Override
     public void update() {
 

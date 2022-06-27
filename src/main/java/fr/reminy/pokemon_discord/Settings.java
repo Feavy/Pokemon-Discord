@@ -1,5 +1,7 @@
 package fr.reminy.pokemon_discord;
 
+import org.javacord.api.DiscordApi;
+
 public class Settings {
     public final static String PREFIX = "a!";
     public static final int CAMERA_WIDTH = 15;

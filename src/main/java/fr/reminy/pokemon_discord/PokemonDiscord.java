@@ -10,12 +10,36 @@ import org.javacord.api.entity.activity.ActivityType;
 
 import java.io.IOException;
 
-public class Main {
+public class PokemonDiscord {
+
+    private static final PokemonDiscord instance = new PokemonDiscord();
+
+    private DiscordApi API;
+
+    private PokemonDiscord() {}
+
+    public static PokemonDiscord get() {
+        return instance;
+    }
+
+    public static PokemonDiscord discord() {
+        return instance;
+    }
+
+    public DiscordApi api() {
+        return API;
+    }
+
+    public static DiscordApi discordAPI() {
+        return instance.API;
+    }
 
     public static void main(String[] args) throws IOException {
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(args[0])
                 .login().join();
+
+        PokemonDiscord.instance.API = api;
 
         if(args.length > 1 && "production".equalsIgnoreCase(args[1])) {
             Settings.IS_PRODUCTION = true;
