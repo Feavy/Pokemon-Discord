@@ -1,10 +1,11 @@
 package fr.reminy.pokemon_discord.game.data;
 
 import fr.reminy.pokemon_discord.PokemonDiscord;
-import fr.reminy.pokemon_discord.Settings;
 import org.javacord.api.entity.emoji.Emoji;
 
 import java.util.Arrays;
+
+import static fr.reminy.pokemon_discord.PokemonDiscord.discordAPI;
 
 public enum Direction {
     UP(new Position(0, -1), "990847185262358578"),
@@ -17,7 +18,7 @@ public enum Direction {
 
     Direction(Position offset, String emojiId) {
         this.offset = offset;
-        this.emoji = PokemonDiscord.getInstance().getAPI().getCustomEmojiById(emojiId).orElseThrow();
+        this.emoji = discordAPI().getCustomEmojiById(emojiId).orElseThrow();
     }
 
     public Position getOffset() {

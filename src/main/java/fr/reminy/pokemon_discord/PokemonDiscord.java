@@ -1,6 +1,5 @@
 package fr.reminy.pokemon_discord;
 
-import fr.reminy.pokemon_discord.game.PokemonGame;
 import fr.reminy.pokemon_discord.listeners.ComponentsListener;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.listeners.CommandListener;
@@ -19,22 +18,28 @@ public class PokemonDiscord {
 
     private PokemonDiscord() {}
 
-    public static PokemonDiscord getInstance() {
+    public static PokemonDiscord get() {
         return instance;
     }
 
-    public void setAPI(DiscordApi API) {
-        this.API = API;
+    public static PokemonDiscord discord() {
+        return instance;
     }
 
-    public DiscordApi getAPI() {
+    public DiscordApi api() {
         return API;
+    }
+
+    public static DiscordApi discordAPI() {
+        return instance.API;
     }
 
     public static void main(String[] args) throws IOException {
         DiscordApi api = new DiscordApiBuilder()
                 .setToken(args[0])
                 .login().join();
+
+        PokemonDiscord.instance.API = api;
 
         if(args.length > 1 && "production".equalsIgnoreCase(args[1])) {
             Settings.IS_PRODUCTION = true;
@@ -53,7 +58,6 @@ public class PokemonDiscord {
         api.addMessageComponentCreateListener(new ComponentsListener());
 
         GameHttpServer.INSTANCE.start();
-        PokemonDiscord.getInstance().setAPI(api);
 
         System.out.println("Ready!");
     }

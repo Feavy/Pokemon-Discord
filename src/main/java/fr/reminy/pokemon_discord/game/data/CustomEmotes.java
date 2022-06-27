@@ -3,6 +3,8 @@ package fr.reminy.pokemon_discord.game.data;
 import fr.reminy.pokemon_discord.PokemonDiscord;
 import org.javacord.api.entity.emoji.Emoji;
 
+import static fr.reminy.pokemon_discord.PokemonDiscord.discordAPI;
+
 public enum CustomEmotes {
     A("990847189523763200"),
     B("990847191096647740"),
@@ -23,6 +25,6 @@ public enum CustomEmotes {
     }
 
     public Emoji toEmoji() {
-        return PokemonDiscord.getInstance().getAPI().getCustomEmojiById(id).orElseThrow();
+        return discordAPI().getCustomEmojiById(id).orElseThrow();
     }
 }

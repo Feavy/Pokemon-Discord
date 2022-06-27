@@ -1,29 +1,33 @@
 package fr.reminy.pokemon_discord.components.buttons;
 
-import org.javacord.api.entity.emoji.Emoji;
-import org.javacord.api.entity.message.component.Button;
+import fr.reminy.pokemon_discord.game.data.CustomEmotes;
+import fr.reminy.pokemon_discord.game.data.UnicodeEmotes;
+import fr.reminy.pokemon_discord.game.entity.Player;
 import org.javacord.api.entity.message.component.ButtonStyle;
-import org.javacord.api.event.interaction.MessageComponentCreateEvent;
 
-public abstract class SimpleButton {
-    public final String id;
-    public final Button internal;
+import java.util.function.Consumer;
 
-    public SimpleButton(String id, String label, Emoji emoji, ButtonStyle style) {
-        this.id = id;
-        internal = Button.create(id, style, label, emoji);
-        System.out.println(id);
+class SimpleButton extends AbstractButton {
+    private final Consumer<Player> callback;
+
+    public SimpleButton(String id, String label, CustomEmotes emote, ButtonStyle style, Consumer<Player> callback) {
+        super(id, label, emote.toEmoji(), style);
+        this.callback = callback;
     }
 
-    public SimpleButton(String id, String label, String unicodeEmoji, ButtonStyle style) {
-        this.id = id;
-        internal = Button.create(id, style, label, unicodeEmoji);
+    public SimpleButton(String id, String label, UnicodeEmotes unicodeEmoji, ButtonStyle style, Consumer<Player> callback) {
+        super(id, label, unicodeEmoji.getUnicode(), style);
+        this.callback = callback;
     }
 
-    public SimpleButton(String id, String label, ButtonStyle style) {
-        this.id = id;
-        internal = Button.create(id, style, label);
+    public SimpleButton(String id, String label, ButtonStyle style, Consumer<Player> callback) {
+        super(id, label, style);
+        this.callback = callback;
     }
 
-    public abstract void onClick(MessageComponentCreateEvent event);
+    @Override
+    public void onClick(Player player) {
+        callback.accept(player);
+    }
 }
+

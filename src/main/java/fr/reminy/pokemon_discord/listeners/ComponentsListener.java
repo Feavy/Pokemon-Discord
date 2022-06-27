@@ -15,7 +15,21 @@ public class ComponentsListener implements MessageComponentCreateListener {
         String customId = messageComponentInteraction.getCustomId();
         System.out.println("Test " + customId);
 
-        Buttons.get(customId).onClick(event);
-        System.out.println("Fin on click");
+        Message msg = messageComponentInteraction.getMessage();
+        messageComponentInteraction.getMessage();
+
+        PokemonGame playerGame = GameManager.INSTANCE.getGameByMessage(msg);
+
+        if (playerGame == null) {
+            return;
+        }
+
+        if (!playerGame.canPlay(messageComponentInteraction.getUser())) {
+            return;
+        }
+
+        Buttons.get(customId).onClick(playerGame.getPlayer());
+
+        messageComponentInteraction.createImmediateResponder().respond();
     }
 }
