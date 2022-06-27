@@ -60,8 +60,8 @@ public class AdventureCommand implements Command {
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder
                 .setContent(playerImageURL)
-                .addComponents(ActionRow.of(Buttons.VITESSE_MINUS, Buttons.VITESSE_PLUS, Buttons.A, Buttons.B),
-                        ActionRow.of(Buttons.LEFT, Buttons.UP, Buttons.DOWN, Buttons.RIGHT))
+                .addComponents(ActionRow.of(Buttons.LEFT, Buttons.UP, Buttons.DOWN, Buttons.RIGHT),
+                        ActionRow.of(Buttons.VITESSE_MINUS, Buttons.VITESSE_PLUS, Buttons.A, Buttons.B))
                 .send(channel).thenAccept(msg -> GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame));
     }
 }
