@@ -13,7 +13,6 @@ public class ComponentsListener implements MessageComponentCreateListener {
     public void onComponentCreate(MessageComponentCreateEvent event) {
         MessageComponentInteraction messageComponentInteraction = event.getMessageComponentInteraction();
         String customId = messageComponentInteraction.getCustomId();
-        System.out.println("Test " + customId);
 
         Message msg = messageComponentInteraction.getMessage();
         messageComponentInteraction.getMessage();
