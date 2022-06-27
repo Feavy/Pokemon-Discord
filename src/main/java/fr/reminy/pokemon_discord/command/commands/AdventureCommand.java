@@ -60,16 +60,8 @@ public class AdventureCommand implements Command {
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder
                 .setContent(playerImageURL)
-                .addComponents(ActionRow.of(Buttons.VITESSE_MINUS, Buttons.VITESSE_PLUS))
-                .send(channel).thenAccept(msg -> {
-                            GameManager.INSTANCE.setLinkedMessage(msg, finalPlayerGame);
-                            msg.addReaction(Direction.LEFT.asEmoji());
-                            msg.addReaction(Direction.UP.asEmoji());
-                            msg.addReaction(Direction.DOWN.asEmoji());
-                            msg.addReaction(Direction.RIGHT.asEmoji());
-                            msg.addReaction("🇦");
-                            msg.addReaction("🇧");
-                        }
-                );
+                .addComponents(ActionRow.of(Buttons.VITESSE_MINUS, Buttons.VITESSE_PLUS, Buttons.A, Buttons.B),
+                        ActionRow.of(Buttons.LEFT, Buttons.UP, Buttons.DOWN, Buttons.RIGHT))
+                .send(channel);
     }
 }
