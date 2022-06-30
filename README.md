@@ -1,6 +1,7 @@
 # Pokemon Discord *(WIP)*
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/cee66162b94e751f84de/maintainability)](https://codeclimate.com/github/Feavy/pokemon-discord-poc/maintainability)
+[![Maintainability Sonar](https://sonarcloud.io/api/project_badges/measure?project=Feavy_pokemon-discord-poc&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Feavy_pokemon-discord-poc)
 [![Code Quality](
 https://img.shields.io/lgtm/grade/java/github/Feavy/pokemon-discord-poc.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Feavy/pokemon-discord-poc/context:java)
 
