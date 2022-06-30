@@ -8,8 +8,8 @@ import fr.reminy.pokemon_discord.game.data.Position;
 import fr.reminy.pokemon_discord.game.map.tile.TileType;
 import fr.reminy.pokemon_discord.game.entity.Character;
 import fr.reminy.pokemon_discord.game.render.Drawable;
-import fr.reminy.pokemon_discord.tmx.ClasspathTMXMapReader;
 import org.mapeditor.core.*;
+import org.mapeditor.io.TMXMapReader;
 import org.mapeditor.view.OrthogonalRenderer;
 
 import java.awt.*;
@@ -39,16 +39,20 @@ public class Map implements Drawable {
     }
 
     private static Map register(String name, String path) {
-        ClasspathTMXMapReader reader = new ClasspathTMXMapReader();
         org.mapeditor.core.Map map = null;
         try {
-            map = reader.readMap(path);
+            TMXMapReader reader = new TMXMapReader();
+            map = reader.readMap(Map.class.getResource(path));
         } catch (Exception e) {
             e.printStackTrace();
         }
         Map m = new Map(name, map);
         maps.put(name, m);
         return m;
+    }
+
+    public static void setup() {
+        // Called at startup to init static context
     }
 
     public static Map fromName(String map) {

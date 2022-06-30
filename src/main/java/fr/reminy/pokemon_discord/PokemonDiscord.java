@@ -1,5 +1,6 @@
 package fr.reminy.pokemon_discord;
 
+import fr.reminy.pokemon_discord.game.map.Map;
 import fr.reminy.pokemon_discord.listeners.ComponentsListener;
 import fr.reminy.pokemon_discord.game.http.GameHttpServer;
 import fr.reminy.pokemon_discord.listeners.CommandListener;
@@ -58,6 +59,8 @@ public class PokemonDiscord {
         api.addMessageComponentCreateListener(new ComponentsListener());
 
         GameHttpServer.INSTANCE.start();
+
+        Map.setup();
 
         System.out.println("Ready!");
     }
