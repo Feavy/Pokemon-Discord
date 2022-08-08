@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pokemon-discord-secret
+  namespace: feavy
+type: Opaque
+stringData:
+  BOT_TOKEN: ${BOT_TOKEN}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-discord
+  namespace: feavy
+  labels:
+    k8s-app: pokemon-discord
+spec:
+  selector:
+    matchLabels:
+      k8s-app: pokemon-discord
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: pokemon-discord
+        name: pokemon-discord
+    spec:
+      containers:
+        - name: pokemon-discord
+          image: ${DOCKER_IMAGE}
+          ports:
+            - name: http
+              containerPort: 8081
+          env:
+            - name: HOST
+              value: ${HOST}
+          envFrom:
+            - secretRef:
+                name: pokemon-discord-secret
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: regcred
+      nodeSelector:
+        kubernetes.io/hostname: 'feavy'
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pokemon-discord-service
+  namespace: feavy
+spec:
+  selector:
+    k8s-app: pokemon-discord
+  ports:
+    - protocol: TCP
+      port: 8081
+      name: web
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pokemon-discord-route
+  namespace: kube-system
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`pkmn.feavy.fr`)
+      services:
+        - name: pokemon-discord-service
+          namespace: feavy
+          port: 8081
+  tls:
+    secretName: feavy-tls

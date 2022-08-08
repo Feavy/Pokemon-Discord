@@ -1,0 +1,56 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Build & Deploy to VM using ssh
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build with Gradle
+        run: ./gradlew shadowJar
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-jars
+          path: |
+            build/libs
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/azure.key
+          chmod 600 ~/.ssh/azure.key
+          cat >>~/.ssh/config <<END
+          Host azure
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/azure.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+      - name: Stop the bot
+        run: ssh azure "sudo pkill -f 'java11 -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT-all.jar'"
+      - name: Upload jar on Azure VM
+        run: |
+          ssh azure 'echo "/usr/bin/java11 -jar /pokemon/pokemon-discord-poc-1.0-SNAPSHOT-all.jar ${{ secrets.BOT_TOKEN }} production >> /pokemon/log.txt 2>> /pokemon/log.txt" > /pokemon/run.sh'
+          ssh azure 'chmod 700 /pokemon/run.sh'
+          scp build/libs/pokemon-discord-poc-1.0-SNAPSHOT-all.jar azure:/pokemon
+      - name: Start the bot
+        run: ssh azure 'sudo nohup /pokemon/run.sh > /dev/null &' &

@@ -21,9 +21,6 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 
 public class GameHttpServer {
-
-    private static final int PORT = 8081;
-
     public final static GameHttpServer INSTANCE = new GameHttpServer();
     private final Map<Long, BufferedImage> playerImages = new HashMap<>();
 
@@ -31,20 +28,10 @@ public class GameHttpServer {
 
     private GameHttpServer() {
         if (Settings.IS_PRODUCTION) {
-            try {
-                URL checkip = new URL("http://checkip.amazonaws.com");
-                try (BufferedReader in = new BufferedReader(new InputStreamReader(checkip.openStream()))) {
-                    String serverIP = in.readLine();
-                    this.address = "http://" + serverIP + ":" + PORT;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            this.address = Settings.HOST;
         } else {
             NgrokClient ngrokClient = new NgrokClient.Builder().build();
-            CreateTunnel createTunnel = new CreateTunnel.Builder().withAddr(PORT).build();
+            CreateTunnel createTunnel = new CreateTunnel.Builder().withAddr(Settings.PORT).build();
 
             // Open a HTTP tunnel on port 8080
             // <Tunnel: "http://<public_sub>.ngrok.io" -> "http://localhost:8080">
@@ -55,7 +42,7 @@ public class GameHttpServer {
     }
 
     public void start() throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(Settings.PORT), 0);
         HttpContext context = server.createContext("/");
         server.setExecutor(Executors.newFixedThreadPool(10));
         context.setHandler(this::handleRequest);
