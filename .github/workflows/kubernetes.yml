@@ -46,6 +46,7 @@ jobs:
         DEPLOYMENT: deployment.yml
         BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
         HOST: https://pkmn.feavy.fr
+        PLATFORM: arm64
 
     - name: Restart deployment
       run: kubectl rollout restart deployment pokemon-discord --namespace feavy
